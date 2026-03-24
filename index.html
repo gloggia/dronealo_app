@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#004AAD" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Dronealo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+    <div class="app-root">
+      <header class="app-top">
+        <a href="index.html" class="brand brand--compact" aria-label="Dronealo inicio">
+          <img
+            class="brand-mark"
+            src="assets/logo-isotipo.png"
+            alt=""
+            width="40"
+            height="40"
+            decoding="async"
+          />
+          <span class="brand-wordmark" aria-hidden="true">
+            <span class="brand-wordmark__blue">DRONE</span><span class="brand-wordmark__orange">ALO</span>
+          </span>
+        </a>
+      </header>
+
+      <main class="app-main">
+        <p class="home-hello">Hola</p>
+        <h2 class="home-title">¿Qué querés capturar desde el aire?</h2>
+
+        <div class="hero-card">
+          <p>Reservá fecha, indicá la ubicación y recibí el material listo para publicar.</p>
+          <a class="btn btn-primary btn-block" href="solicitar.html">Nuevo pedido</a>
+        </div>
+
+        <p class="section-label">Servicios</p>
+        <div class="shortcuts">
+          <a class="shortcut" href="solicitar.html?tipo=foto">
+            <span class="emoji" aria-hidden="true">📷</span>
+            <strong>Foto y video</strong>
+            <span>Propiedades y espacios</span>
+          </a>
+          <a class="shortcut" href="solicitar.html?tipo=inspeccion">
+            <span class="emoji" aria-hidden="true">🔍</span>
+            <strong>Inspección</strong>
+            <span>Techos y obra</span>
+          </a>
+          <a class="shortcut" href="solicitar.html?tipo=evento">
+            <span class="emoji" aria-hidden="true">🎉</span>
+            <strong>Eventos</strong>
+            <span>Cobertura aérea</span>
+          </a>
+          <a class="shortcut" href="servicios.html">
+            <span class="emoji" aria-hidden="true">⋯</span>
+            <strong>Ver todos</strong>
+            <span>Más opciones</span>
+          </a>
+        </div>
+
+        <p class="section-label">Actividad reciente</p>
+        <div class="order-preview">
+          <div class="row">
+            <span class="id">Pedido DA-72M91</span>
+            <span class="status">Entregado</span>
+          </div>
+          <p class="meta">Fotografía aérea · Zona norte · Hace 5 días</p>
+          <a class="link" href="pedidos.html">Ver mis pedidos</a>
+        </div>
+      </main>
+    </div>
+
+      <nav class="tab-bar" aria-label="Principal">
+        <a class="active" href="index.html"><span class="ti" aria-hidden="true">⌂</span>Inicio</a>
+        <a href="servicios.html"><span class="ti" aria-hidden="true">☰</span>Servicios</a>
+        <a href="pedidos.html"><span class="ti" aria-hidden="true">◫</span>Pedidos</a>
+        <a href="perfil.html"><span class="ti" aria-hidden="true">○</span>Perfil</a>
+      </nav>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#004AAD" />
+    <title>Pedidos — Dronealo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+    <div class="app-root">
+      <header class="app-top">
+        <a href="index.html" class="brand brand--compact" aria-label="Dronealo inicio">
+          <img
+            class="brand-mark"
+            src="assets/logo-isotipo.png"
+            alt=""
+            width="40"
+            height="40"
+            decoding="async"
+          />
+          <span class="brand-wordmark" aria-hidden="true">
+            <span class="brand-wordmark__blue">DRONE</span><span class="brand-wordmark__orange">ALO</span>
+          </span>
+        </a>
+      </header>
+
+      <main class="app-main">
+        <h2 class="home-title" style="font-size: 1.35rem; margin-bottom: 16px">Mis pedidos</h2>
+
+        <div class="order-list">
+          <article class="order-card">
+            <div class="top">
+              <span class="ref">DA-72M91</span>
+              <span class="pill done">Entregado</span>
+            </div>
+            <p>Foto aéreo · Martes 18 mar · Material en tu bandeja</p>
+          </article>
+          <article class="order-card">
+            <div class="top">
+              <span class="ref">DA-48K3L</span>
+              <span class="pill progress">En curso</span>
+            </div>
+            <p>Inspección · Programado viernes 28 mar</p>
+          </article>
+          <article class="order-card">
+            <div class="top">
+              <span class="ref">DA-31PQR</span>
+              <span class="pill done">Entregado</span>
+            </div>
+            <p>Obra · Entregado el 02 mar</p>
+          </article>
+        </div>
+
+        <div style="margin-top: 24px">
+          <a class="btn btn-primary btn-block" href="solicitar.html">Nuevo pedido</a>
+        </div>
+      </main>
+    </div>
+
+      <nav class="tab-bar" aria-label="Principal">
+        <a href="index.html"><span class="ti">⌂</span>Inicio</a>
+        <a href="servicios.html"><span class="ti">☰</span>Servicios</a>
+        <a class="active" href="pedidos.html"><span class="ti">◫</span>Pedidos</a>
+        <a href="perfil.html"><span class="ti">○</span>Perfil</a>
+      </nav>
+    </div>
+  </body>
+</html>
