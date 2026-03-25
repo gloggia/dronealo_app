@@ -29,7 +29,8 @@
       }
       .live-badge::before {
         content: '';
-        width: 7px; height: 7px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         background: #0d9f4c;
         animation: pulse-dot 1.4s ease-in-out infinite;
@@ -37,10 +38,9 @@
       }
       @keyframes pulse-dot {
         0%, 100% { opacity: 1; transform: scale(1); }
-        50%       { opacity: 0.5; transform: scale(0.75); }
+        50% { opacity: 0.5; transform: scale(0.75); }
       }
 
-      /* Panel */
       .live-panel {
         background: var(--surface);
         border: 1px solid var(--border);
@@ -56,115 +56,181 @@
         padding: 12px 14px 10px;
         border-bottom: 1px solid var(--border);
       }
-      .live-panel-header .lref  { font-weight: 800; font-size: 0.9rem; }
-      .live-panel-header .ldesc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+      .live-panel-header .ref { font-weight: 800; font-size: 0.9rem; }
+      .live-panel-header .desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
-      /* Tabs */
-      .live-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface-elevated); }
+      .live-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface-elevated);
+      }
       .live-tab {
-        flex: 1; padding: 9px 0;
-        font-size: 0.72rem; font-weight: 700;
-        text-align: center; color: var(--muted);
-        cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em;
-        border: none; background: transparent;
+        flex: 1;
+        padding: 9px 0;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-align: center;
+        color: var(--muted);
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border: none;
+        background: transparent;
         border-bottom: 2.5px solid transparent;
         font-family: inherit;
-        transition: color .15s, border-color .15s;
+        transition: color 0.15s, border-color 0.15s;
       }
-      .live-tab.active { color: var(--brand-blue); border-bottom-color: var(--brand-blue); background: var(--surface); }
+      .live-tab.active {
+        color: var(--brand-blue);
+        border-bottom-color: var(--brand-blue);
+        background: var(--surface);
+      }
+
       .tab-content { display: none; }
       .tab-content.active { display: block; }
 
-      /* Video */
-      .live-video-wrap { position: relative; background: #0a0f1a; }
-      .live-video-wrap iframe {
-        display: block; width: 100%;
-        aspect-ratio: 16/9; border: none;
+      .live-video-wrap {
+        position: relative;
+        background: #0a0f1a;
       }
-      /* Fallback nativo para cuando el iframe falla */
-      .live-video-wrap video {
-        display: block; width: 100%;
-        aspect-ratio: 16/9; background: #0a0f1a; object-fit: cover;
+      .live-video-wrap iframe {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: none;
       }
       .live-overlay-bar {
-        position: absolute; bottom: 0; left: 0; right: 0;
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
         padding: 8px 12px;
-        background: linear-gradient(0deg,rgba(0,0,0,.72) 0%,transparent 100%);
-        display: flex; align-items: center; justify-content: space-between; gap: 8px;
+        background: linear-gradient(0deg, rgba(0,0,0,0.72) 0%, transparent 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
         pointer-events: none;
       }
-      .live-overlay-bar .drone-info { font-size:.7rem; font-weight:700; color:rgba(255,255,255,.92); }
-      .live-overlay-bar .telemetry  { display:flex; gap:8px; font-size:.64rem; font-weight:700; color:rgba(255,255,255,.8); }
+      .live-overlay-bar .drone-info {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.92);
+      }
+      .live-overlay-bar .telemetry {
+        display: flex;
+        gap: 8px;
+        font-size: 0.64rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.8);
+      }
 
-      /* Mapa */
-      .live-map-wrap { position: relative; aspect-ratio: 16/9; background: #1e293b; overflow: hidden; }
-      .map-svg { width:100%; height:100%; }
+      .live-map-wrap {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background: #1e293b;
+        overflow: hidden;
+      }
+      .map-svg { width: 100%; height: 100%; }
+
       .drone-marker-g { animation: drone-fly 9s ease-in-out infinite alternate; }
       @keyframes drone-fly {
-        0%   { transform: translate(0,0); }
-        30%  { transform: translate(22px,-14px); }
-        60%  { transform: translate(36px,6px); }
-        100% { transform: translate(10px,18px); }
+        0%   { transform: translate(0px, 0px); }
+        30%  { transform: translate(22px, -14px); }
+        60%  { transform: translate(36px, 6px); }
+        100% { transform: translate(10px, 18px); }
       }
       .pulse-ring {
         animation: ring-expand 2s ease-out infinite;
-        transform-box: fill-box; transform-origin: center;
+        transform-box: fill-box;
+        transform-origin: center;
       }
-      @keyframes ring-expand { 0%{r:9;opacity:.8} 100%{r:26;opacity:0} }
+      @keyframes ring-expand {
+        0%   { r: 9; opacity: 0.8; }
+        100% { r: 26; opacity: 0; }
+      }
 
       .map-overlay-info {
-        position: absolute; top:8px; left:8px; right:8px;
-        display:flex; justify-content:space-between; gap:6px; pointer-events:none;
+        position: absolute;
+        top: 8px; left: 8px; right: 8px;
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+        pointer-events: none;
       }
       .map-chip {
-        display:inline-flex; align-items:center; gap:5px;
-        background:rgba(255,255,255,.92); backdrop-filter:blur(8px);
-        padding:5px 9px; border-radius:8px; font-size:.68rem; font-weight:700;
-        color:var(--text); box-shadow:0 2px 8px rgba(0,0,0,.18);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(8px);
+        padding: 5px 9px;
+        border-radius: 8px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: var(--text);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
       }
-      .map-chip.orange { background:var(--brand-orange); color:#fff; }
-      .dot-live { width:6px;height:6px;border-radius:50%;background:#0d9f4c;animation:pulse-dot 1.4s ease-in-out infinite; }
+      .map-chip.orange { background: var(--brand-orange); color: #fff; }
+      .dot-live {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #0d9f4c;
+        animation: pulse-dot 1.4s ease-in-out infinite;
+      }
 
-      /* Acciones */
       .live-actions {
-        display:flex; gap:8px; padding:10px 14px;
-        border-top:1px solid var(--border); background:var(--surface-elevated);
+        display: flex;
+        gap: 8px;
+        padding: 10px 14px;
+        border-top: 1px solid var(--border);
+        background: var(--surface-elevated);
       }
       .live-action-btn {
-        flex:1; display:flex; align-items:center; justify-content:center; gap:5px;
-        padding:9px 4px; border-radius:10px; font-size:.7rem; font-weight:700;
-        border:1px solid var(--border); background:var(--surface); color:var(--text);
-        cursor:pointer; font-family:inherit; transition:background .15s;
-      }
-      .live-action-btn:hover { background:var(--brand-blue-soft); border-color:var(--brand-blue); color:var(--brand-blue); }
-
-      /* Card en curso */
-      .order-card.in-progress { border-left:3px solid var(--brand-orange); }
-      .expand-live {
-        display:flex; align-items:center; gap:6px; margin-top:12px;
-        font-size:.8rem; font-weight:700; color:var(--brand-blue); cursor:pointer;
-        padding:8px 0 2px; border-top:1px solid var(--border);
-        background:none; border-left:none; border-right:none; border-bottom:none;
-        font-family:inherit; width:100%; text-align:left;
-      }
-      .expand-live .chev { margin-left:auto; transition:transform .2s; }
-      .expand-live.open .chev { transform:rotate(180deg); }
-      .live-collapse { display:none; padding-top:12px; }
-      .live-collapse.open { display:block; }
-
-      /* Nota de error amigable */
-      .video-error-note {
-        display:none;
-        background: #fff7ed;
-        border: 1px solid rgba(255,112,18,.25);
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 9px 4px;
         border-radius: 10px;
-        padding: 10px 14px;
-        font-size: .78rem;
-        color: var(--muted);
-        margin: 8px 14px;
-        text-align: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.15s;
       }
-      .video-error-note a { color:var(--brand-blue); font-weight:700; }
+      .live-action-btn:hover {
+        background: var(--brand-blue-soft);
+        border-color: var(--brand-blue);
+        color: var(--brand-blue);
+      }
+
+      .order-card.in-progress { border-left: 3px solid var(--brand-orange); }
+
+      .expand-live {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 12px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--brand-blue);
+        cursor: pointer;
+        padding: 8px 0 2px;
+        border-top: 1px solid var(--border);
+        background: none;
+        border-left: none; border-right: none; border-bottom: none;
+        font-family: inherit;
+        width: 100%;
+        text-align: left;
+      }
+      .expand-live .chev { margin-left: auto; transition: transform 0.2s; }
+      .expand-live.open .chev { transform: rotate(180deg); }
+
+      .live-collapse { display: none; padding-top: 12px; }
+      .live-collapse.open { display: block; }
     </style>
   </head>
   <body>
@@ -203,35 +269,26 @@
 
                   <div class="live-panel-header">
                     <div>
-                      <div class="lref">DA-48K3L · Inspección de obra</div>
-                      <div class="ldesc">Palermo, Buenos Aires · DJI Mavic 3 Pro</div>
+                      <div class="ref">DA-48K3L · Inspección de obra</div>
+                      <div class="desc">Palermo, Buenos Aires · DJI Mavic 3 Pro</div>
                     </div>
                     <span class="live-badge">En vivo</span>
                   </div>
 
                   <div class="live-tabs">
                     <button class="live-tab active" id="tabStream" onclick="switchTab('stream')">📹 Cámara</button>
-                    <button class="live-tab"        id="tabMap"    onclick="switchTab('map')">🗺️ Mapa</button>
+                    <button class="live-tab" id="tabMap" onclick="switchTab('map')">🗺️ Mapa</button>
                   </div>
 
-                  <!-- ── TAB CÁMARA ── -->
+                  <!-- Cámara -->
                   <div class="tab-content active" id="contentStream">
                     <div class="live-video-wrap">
-                      <!--
-                        Vimeo permite embed por defecto en la mayoría de sus videos.
-                        IDs usados:
-                          779722492 → "Drone Aerial Inspection of a construction site"
-                          200064912 → "Drone Telemetry Information for Inspection and Survey Videos"
-                        Si alguno falla (el dueño lo restringió), el JS ofrece alternar.
-                      -->
-                      <iframe
-                        id="liveIframe"
-                        src="https://player.vimeo.com/video/779722492?autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0&controls=1"
-                        allow="autoplay; fullscreen; picture-in-picture"
+                      <iframe id="liveIframe"
+                        src="https://www.youtube.com/embed/YPNtouPtkJY?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0"
+                        allow="autoplay; encrypted-media; picture-in-picture"
                         allowfullscreen
                         title="Transmisión en vivo del dron"
                         loading="lazy"
-                        referrerpolicy="no-referrer"
                       ></iframe>
                       <div class="live-overlay-bar">
                         <span class="drone-info">🚁 DJI Mavic 3 Pro</span>
@@ -242,53 +299,43 @@
                         </div>
                       </div>
                     </div>
-                    <!-- Nota amigable si el video no carga (mostrada por JS) -->
-                    <div class="video-error-note" id="videoErrorNote">
-                      ⚠️ El video de demo no cargó en este entorno. En producción va la señal real del dron.
-                      <br><a href="https://vimeo.com/779722492" target="_blank" rel="noopener">Ver en Vimeo ↗</a>
-                    </div>
                   </div>
 
-                  <!-- ── TAB MAPA ── -->
+                  <!-- Mapa -->
                   <div class="tab-content" id="contentMap">
                     <div class="live-map-wrap">
                       <svg class="map-svg" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg">
                         <rect width="400" height="225" fill="#1e293b"/>
-                        <!-- Arterias -->
+                        <!-- Calles principales -->
                         <rect x="0" y="102" width="400" height="22" fill="#253347"/>
-                        <rect x="188" y="0"  width="22" height="225" fill="#253347"/>
+                        <rect x="188" y="0" width="22" height="225" fill="#253347"/>
                         <!-- Calles secundarias -->
-                        <rect x="0" y="48"  width="400" height="10" fill="#1f2d3f"/>
+                        <rect x="0" y="48" width="400" height="10" fill="#1f2d3f"/>
                         <rect x="0" y="167" width="400" height="10" fill="#1f2d3f"/>
-                        <rect x="90" y="0"  width="10" height="225" fill="#1f2d3f"/>
+                        <rect x="90" y="0" width="10" height="225" fill="#1f2d3f"/>
                         <rect x="298" y="0" width="10" height="225" fill="#1f2d3f"/>
                         <!-- Manzanas -->
-                        <rect x="4"   y="58" width="82" height="40" rx="3" fill="#243044"/>
-                        <rect x="4"   y="115" width="82" height="48" rx="3" fill="#243044"/>
-                        <rect x="104" y="58"  width="80" height="40" rx="3" fill="#243044"/>
+                        <rect x="4" y="58" width="82" height="40" rx="3" fill="#243044"/>
+                        <rect x="4" y="115" width="82" height="48" rx="3" fill="#243044"/>
+                        <rect x="104" y="58" width="80" height="40" rx="3" fill="#243044"/>
                         <rect x="104" y="115" width="80" height="48" rx="3" fill="#243044"/>
-                        <rect x="212" y="58"  width="82" height="40" rx="3" fill="#243044"/>
+                        <rect x="212" y="58" width="82" height="40" rx="3" fill="#243044"/>
                         <rect x="212" y="115" width="82" height="48" rx="3" fill="#243044"/>
-                        <rect x="312" y="58"  width="84" height="40" rx="3" fill="#243044"/>
+                        <rect x="312" y="58" width="84" height="40" rx="3" fill="#243044"/>
                         <rect x="312" y="115" width="84" height="48" rx="3" fill="#243044"/>
                         <!-- Zona de trabajo -->
-                        <rect x="104" y="58" width="80" height="40" rx="3"
-                              fill="rgba(255,112,18,.08)" stroke="#FF7012"
-                              stroke-width="1.5" stroke-dasharray="5 3"/>
-                        <text x="144" y="82" font-size="6" fill="#FF7012"
-                              text-anchor="middle" font-family="sans-serif" font-weight="700">ZONA DE VUELO</text>
+                        <rect x="104" y="58" width="80" height="40" rx="3" fill="rgba(255,112,18,0.08)" stroke="#FF7012" stroke-width="1.5" stroke-dasharray="5 3"/>
+                        <text x="144" y="82" font-size="6" fill="#FF7012" text-anchor="middle" font-family="sans-serif" font-weight="700">ZONA DE VUELO</text>
                         <!-- Pin destino -->
-                        <circle cx="144" cy="78" r="5" fill="#FF7012" opacity=".3"/>
+                        <circle cx="144" cy="78" r="5" fill="#FF7012" opacity="0.3"/>
                         <circle cx="144" cy="78" r="3" fill="#FF7012"/>
                         <!-- Trayectoria -->
-                        <polyline points="55,150 80,130 110,108 144,78"
-                                  fill="none" stroke="#004AAD" stroke-width="2"
-                                  stroke-dasharray="5 3" opacity=".55"/>
+                        <polyline points="55,150 80,130 110,108 144,78" fill="none" stroke="#004AAD" stroke-width="2" stroke-dasharray="5 3" opacity="0.55"/>
                         <!-- Dron animado -->
                         <g class="drone-marker-g" style="transform-origin:55px 150px">
-                          <circle class="pulse-ring" cx="55" cy="150" r="9"
-                                  fill="none" stroke="#004AAD" stroke-width="1.5"/>
+                          <circle class="pulse-ring" cx="55" cy="150" r="9" fill="none" stroke="#004AAD" stroke-width="1.5"/>
                           <circle cx="55" cy="150" r="8" fill="#004AAD"/>
+                          <!-- aspas -->
                           <line x1="51" y1="146" x2="47" y2="142" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                           <line x1="59" y1="146" x2="63" y2="142" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                           <line x1="51" y1="154" x2="47" y2="158" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
@@ -296,11 +343,10 @@
                           <circle cx="55" cy="150" r="2.5" fill="white"/>
                         </g>
                         <!-- Label dron -->
-                        <rect x="66" y="142" width="50" height="14" rx="4" fill="rgba(0,74,173,.9)"/>
-                        <text x="91" y="151.5" font-size="6" fill="white"
-                              text-anchor="middle" font-family="sans-serif" font-weight="700">DA-48K3L</text>
+                        <rect x="66" y="142" width="50" height="14" rx="4" fill="rgba(0,74,173,0.9)"/>
+                        <text x="91" y="151.5" font-size="6" fill="white" text-anchor="middle" font-family="sans-serif" font-weight="700">DA-48K3L</text>
                         <!-- Leyenda -->
-                        <rect x="6" y="6" width="86" height="34" rx="5" fill="rgba(0,0,0,.35)"/>
+                        <rect x="6" y="6" width="86" height="34" rx="5" fill="rgba(0,0,0,0.35)"/>
                         <circle cx="17" cy="18" r="5" fill="#004AAD"/>
                         <text x="26" y="21" font-size="6.5" fill="#94a3b8" font-family="sans-serif">Dron (en vuelo)</text>
                         <circle cx="17" cy="32" r="4" fill="#FF7012"/>
@@ -324,7 +370,7 @@
               </div>
             </article>
 
-            <!-- Entregados -->
+            <!-- Pedidos entregados -->
             <article class="order-card">
               <div class="top">
                 <span class="ref">DA-72M91</span>
@@ -357,16 +403,15 @@
     </div>
 
     <script>
-      // IDs Vimeo: cam1 = inspección de obra, cam2 = telemetría dron
-      const STREAMS = [
-        'https://player.vimeo.com/video/779722492?autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0&controls=1',
-        'https://player.vimeo.com/video/200064912?autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0&controls=1'
+      const streams = [
+        'https://www.youtube.com/embed/YPNtouPtkJY?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0',
+        'https://www.youtube.com/embed/hXD8itTKdY0?start=247&autoplay=1&mute=1&controls=1&modestbranding=1&rel=0'
       ];
 
       function toggleLive() {
-        const btn   = document.getElementById('btnLive');
+        const btn = document.getElementById('btnLive');
         const panel = document.getElementById('livePanel');
-        const open  = panel.classList.toggle('open');
+        const open = panel.classList.toggle('open');
         btn.classList.toggle('open', open);
         btn.setAttribute('aria-expanded', open);
         btn.querySelector('.chev').textContent = open ? '▴' : '▾';
@@ -374,33 +419,23 @@
 
       function switchTab(tab) {
         ['stream','map'].forEach(t => {
-          const key = t.charAt(0).toUpperCase() + t.slice(1);
-          document.getElementById('tab' + key).classList.toggle('active', t === tab);
-          document.getElementById('content' + key).classList.toggle('active', t === tab);
+          document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+          document.getElementById('content' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
         });
       }
 
       function switchVideo(idx) {
-        document.getElementById('liveIframe').src = STREAMS[idx];
+        document.getElementById('liveIframe').src = streams[idx];
         switchTab('stream');
       }
-
-      // Mostrar nota de error si el iframe falla (p.ej. en file://)
-      window.addEventListener('message', function(e) {
-        if (e.data && e.data.event === 'error') {
-          document.getElementById('videoErrorNote').style.display = 'block';
-        }
-      });
 
       // Telemetría animada
       let alt = 38, spd = 12, bat = 74;
       setInterval(() => {
         alt = Math.max(15, Math.min(80, alt + (Math.random()-.5)*4));
-        spd = Math.max(0,  Math.min(35, spd + (Math.random()-.5)*3));
+        spd = Math.max(0, Math.min(35, spd + (Math.random()-.5)*3));
         bat = Math.max(10, bat - 0.04);
-        const a = Math.round(alt)+'m';
-        const s = Math.round(spd)+'km/h';
-        const b = Math.round(bat)+'%';
+        const a = Math.round(alt)+'m', s = Math.round(spd)+'km/h', b = Math.round(bat)+'%';
         document.getElementById('tAlt').textContent = a;
         document.getElementById('tSpd').textContent = s;
         const batEl = document.getElementById('tBat');

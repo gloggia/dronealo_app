@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dronealo — Modelo de negocio (ángeles)</title>
+  <meta name="theme-color" content="#004aad" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* Paleta alineada a css/main.css (app Dronealo) */
+    :root {
+      --brand-blue: #004aad;
+      --brand-blue-dark: #00357a;
+      --brand-blue-soft: rgba(0, 74, 173, 0.1);
+      --brand-orange: #ff7012;
+      --brand-orange-dark: #e5620e;
+      --brand-orange-soft: rgba(255, 112, 18, 0.14);
+      --bg: #f0f3f9;
+      --bg-page: linear-gradient(180deg, #e8eef7 0%, #f4f6fb 36%, #ffffff 100%);
+      --surface: #ffffff;
+      --surface-elevated: #f7f9fc;
+      --border: rgba(0, 74, 173, 0.12);
+      --text: #142132;
+      --muted: #5c6b80;
+      --shadow-sm: 0 1px 3px rgba(20, 33, 50, 0.06);
+      --shadow-md: 0 8px 28px rgba(20, 33, 50, 0.09);
+      --shadow-glow: 0 12px 40px rgba(0, 74, 173, 0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      background-image: var(--bg-page);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Degradados decorativos (marca) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20% -10% auto -10%;
+      height: 70vh;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0, 74, 173, 0.14), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 85% 10%, rgba(255, 112, 18, 0.12), transparent 50%),
+        radial-gradient(ellipse 50% 40% at 50% 0%, rgba(0, 74, 173, 0.06), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3.5rem;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 2rem;
+      padding: 1.75rem 1.75rem 1.85rem;
+      border-radius: calc(var(--radius) + 4px);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, var(--surface-elevated) 100%);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-orange) 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -40%;
+      right: -15%;
+      width: 55%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(255, 112, 18, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      background: var(--brand-blue-soft);
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(0, 74, 173, 0.15);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand-orange);
+      box-shadow: 0 0 0 2px var(--brand-orange-soft);
+    }
+
+    .brand-title {
+      font-size: clamp(2rem, 5vw, 2.65rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0 0 0.65rem;
+    }
+
+    .brand-title .w-blue {
+      color: var(--brand-blue);
+    }
+
+    .brand-title .w-orange {
+      color: var(--brand-orange);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 56ch;
+      line-height: 1.65;
+    }
+
+    /* Cuerpo del documento */
+    .doc-main {
+      display: block;
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--brand-blue-dark);
+      margin: 1.85rem 0 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(90deg, var(--brand-orange), var(--brand-blue)) 1;
+    }
+
+    h2::before {
+      content: "";
+      width: 4px;
+      height: 1.15em;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--brand-orange) 0%, var(--brand-blue) 100%);
+      flex-shrink: 0;
+    }
+
+    .doc-main > h2:first-of-type {
+      margin-top: 1.25rem;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin: 1.35rem 0 0.5rem;
+      color: var(--text);
+    }
+
+    p {
+      margin: 0 0 1rem;
+    }
+
+    ul {
+      margin: 0 0 1rem;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 1.35rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--brand-orange);
+      box-shadow: 0 0 0 3px var(--brand-orange-soft);
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      margin: 1rem 0 1.25rem;
+      position: relative;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      left: 1.4rem;
+      top: 0;
+      width: 48px;
+      height: 3px;
+      border-radius: 0 0 3px 3px;
+      background: linear-gradient(90deg, var(--brand-blue), var(--brand-orange));
+    }
+
+    .card strong {
+      color: var(--brand-blue);
+    }
+
+    .table-shell {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin: 0.85rem 0 1.15rem;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th,
+    td {
+      padding: 0.75rem 0.85rem;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    th {
+      background: linear-gradient(180deg, rgba(0, 74, 173, 0.08) 0%, rgba(0, 74, 173, 0.04) 100%);
+      font-weight: 700;
+      color: var(--brand-blue-dark);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td:first-child {
+      font-weight: 600;
+      color: var(--text);
+      background: var(--surface-elevated);
+      width: 26%;
+    }
+
+    td:nth-child(3) {
+      background: linear-gradient(180deg, rgba(255, 112, 18, 0.06) 0%, rgba(0, 74, 173, 0.04) 100%);
+      font-weight: 500;
+    }
+
+    .highlight {
+      background: linear-gradient(125deg, var(--brand-orange-soft) 0%, rgba(0, 74, 173, 0.07) 55%, var(--brand-blue-soft) 100%);
+      border: 1px solid rgba(255, 112, 18, 0.25);
+      padding: 1.15rem 1.25rem;
+      border-radius: var(--radius);
+      margin: 1rem 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .highlight strong {
+      color: var(--brand-blue-dark);
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+      margin: 0.85rem 0 1.1rem;
+      font-size: 0.88rem;
+    }
+
+    .flow span:not(.arrow) {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .flow .arrow {
+      color: var(--brand-orange);
+      font-weight: 700;
+      border: none;
+      background: none;
+      padding: 0 0.1rem;
+      opacity: 0.85;
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+      gap: 0.85rem;
+      margin: 0.85rem 0 1rem;
+    }
+
+    .num {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 0.85rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .num::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand-blue), var(--brand-orange));
+    }
+
+    .num:nth-child(2)::before {
+      background: var(--brand-blue);
+    }
+
+    .num:nth-child(3)::before {
+      background: var(--brand-orange);
+    }
+
+    .num .val {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--brand-orange-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .num .lbl {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+      line-height: 1.35;
+    }
+
+    .fine-print {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 2.75rem;
+      padding: 1.5rem 1.35rem;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--brand-blue-dark) 0%, #002a52 100%);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.82rem;
+      line-height: 1.55;
+      box-shadow: var(--shadow-glow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 1.35rem;
+      right: 1.35rem;
+      height: 3px;
+      border-radius: 0 0 3px 3px;
+      background: linear-gradient(90deg, var(--brand-orange), rgba(255, 112, 18, 0.4));
+    }
+
+    @media print {
+      body::before {
+        display: none;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .hero,
+      .card,
+      .highlight,
+      .num,
+      .table-shell,
+      footer {
+        box-shadow: none;
+      }
+
+      footer {
+        background: #f7f9fc;
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+
+      footer::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding: 1.35rem 1.15rem;
+      }
+
+      th,
+      td {
+        font-size: 0.82rem;
+        padding: 0.55rem 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Documento confidencial — inversión ángel</span>
+      <span class="hero-tag">Modelo de negocio</span>
+      <h1 class="brand-title"><span class="w-blue">Drone</span><span class="w-orange">alo</span></h1>
+      <p class="subtitle">
+        Plataforma operadora de servicios con drones: el cliente pide un trabajo acotado,
+        la plataforma cotiza, asigna un piloto homologado y gestiona el cobro. Modelo análogo
+        a operadores urbanos (movilidad / delivery), aplicado a servicios aéreos B2B y B2C.
+      </p>
+    </header>
+
+    <main class="doc-main">
+    <h2>1. Problema</h2>
+    <p>
+      Quien necesita fotografía aérea, inspección o cobertura de eventos con drone suele
+      tener que contactar varios pilotos, comparar precios poco comparables y asumir riesgos
+      de calidad y cumplimiento. En servicios <em>profesionales</em> (inmobiliaria, industria,
+      obra) el cliente valora <strong>un solo interlocutor</strong>, precio claro y estándar
+      de entrega.
+    </p>
+
+    <h2>2. Propuesta de valor</h2>
+    <p>
+      <strong>Dronealo</strong> vende el servicio al cliente final y opera como
+      <strong>proveedor del servicio</strong>: la plataforma define el alcance, fija el precio,
+      asigna al piloto y centraliza facturación y soporte. El cliente no “elige entre diez
+      pilotos”; contrata un resultado con marca detrás.
+    </p>
+
+    <div class="flow">
+      <span>Cliente</span>
+      <span class="arrow">→</span>
+      <span>Pide servicio</span>
+      <span class="arrow">→</span>
+      <span>Plataforma</span>
+      <span class="arrow">→</span>
+      <span>Asigna piloto</span>
+      <span class="arrow">→</span>
+      <span>Piloto ejecuta</span>
+      <span class="arrow">→</span>
+      <span>Plataforma cobra y paga</span>
+    </div>
+
+    <h2>3. Modelo: marketplace vs operador</h2>
+    <p>
+      En drones, un <strong>marketplace</strong> (piloto fija precio, cliente compara) escala
+      rápido pero diluye marca y estándar. Un <strong>operador</strong> (plataforma fija precio
+      y asigna) asume más responsabilidad operativa y de confianza — coherente con clientes
+      que buscan factura única y calidad repetible.
+    </p>
+
+    <div class="table-shell">
+    <table>
+      <thead>
+        <tr>
+          <th>Dimensión</th>
+          <th>Marketplace</th>
+          <th>Operador (Dronealo)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Rol</td>
+          <td>Intermediario</td>
+          <td>Proveedor del servicio</td>
+        </tr>
+        <tr>
+          <td>Precio</td>
+          <td>Suele fijarlo el piloto</td>
+          <td>Lo fija la plataforma</td>
+        </tr>
+        <tr>
+          <td>Asignación</td>
+          <td>El cliente elige piloto</td>
+          <td>La plataforma asigna</td>
+        </tr>
+        <tr>
+          <td>Marca y estándar</td>
+          <td>Más débil</td>
+          <td>Más fuerte (control de calidad)</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2>4. Oferta típica</h2>
+    <p>Ejemplos de líneas de servicio: fotografía y video aéreo, inspección de estructuras,
+      cobertura de eventos, agricultura de precisión, obra y construcción.</p>
+    <div class="card">
+      <strong>Qué hace la plataforma:</strong> cotización acotada al tipo de trabajo,
+      asignación de piloto, gestión de pago, estándares de entrega y soporte al cliente.
+      <br /><br />
+      <strong>Qué hace el piloto:</strong> ejecuta la misión según briefing; cobra por trabajo
+      acordado con la plataforma.
+    </div>
+
+    <h2>5. Economía unitaria (ilustrativa)</h2>
+    <p>
+      Cifras de ejemplo para conversación con inversores; los márgenes reales dependerán de
+      mix de servicios, costos de adquisición y estructura de pilotos.
+    </p>
+    <div class="highlight">
+      <strong>Caso referencia:</strong> el cliente solicita fotografía aérea de una propiedad
+      en una zona determinada. La plataforma ofrece un <strong>precio cerrado al cliente</strong>;
+      de ese ingreso, una parte cubre al piloto y otra queda para operación, tecnología y margen.
+    </div>
+    <div class="numbers">
+      <div class="num">
+        <div class="val">$ 120.000</div>
+        <div class="lbl">Precio al cliente (ejemplo)</div>
+      </div>
+      <div class="num">
+        <div class="val">$ 70.000</div>
+        <div class="lbl">Costo / pago piloto (ejemplo)</div>
+      </div>
+      <div class="num">
+        <div class="val">$ 50.000</div>
+        <div class="lbl">Bruto plataforma (ejemplo)</div>
+      </div>
+    </div>
+    <p class="fine-print">
+      Montos en pesos argentinos, solo orientativos. El modelo busca margen bruto por misión
+      antes de marketing, seguros, legal y equipo central.
+    </p>
+
+    <h2>6. Ventajas y costos del modelo operador</h2>
+    <h3>Ventajas</h3>
+    <ul>
+      <li>Control de calidad y experiencia unificada bajo marca.</li>
+      <li>Precios claros y proceso simple para el cliente.</li>
+      <li>Menos fricción que comparar múltiples pilotos.</li>
+      <li>Base para repetición y B2B (p. ej. inmobiliarias).</li>
+    </ul>
+    <h3>Lo que la operación debe cubrir</h3>
+    <ul>
+      <li>Soporte, asignación, estándares de entrega, pagos y cumplimiento normativo.</li>
+      <li>Seguros y gestión de riesgo donde aplique.</li>
+      <li>Capacidad de escalar red de pilotos certificados sin perder estándar.</li>
+    </ul>
+
+    <h2>7. Hoja de ruta (resumen)</h2>
+    <ul>
+      <li><strong>Etapa 1 — MVP:</strong> pedidos por canal digital, cotización acotada,
+        precio fijo por tipo de servicio, asignación de piloto <em>asistida o manual</em>
+        mientras se valida oferta y demanda.</li>
+      <li><strong>Etapa 2:</strong> asignación automática según disponibilidad, zona y tipo
+        de misión.</li>
+      <li><strong>Etapa 3:</strong> red ampliada de pilotos homologados y posible expansión
+        geográfica o vertical.</li>
+    </ul>
+    <p>
+      <strong>Mercado inicial sugerido:</strong> relacionado con <strong>inmobiliaria y
+      marketing de propiedades</strong>, donde el dolor de coordinar tomas aéreas es alto y
+      el ticket medio puede sostener operación.
+    </p>
+
+    <h2>8. Uso de fondos (marco para diálogo con ángeles)</h2>
+    <p>
+      Inversión ángel típicamente acelera producto (experiencia cliente y operadores),
+      cumplimiento legal/operativo en uso de drones, y adquisición de primeros clientes
+      B2B. Los porcentajes y montos se definen en términos con cada inversor.
+    </p>
+
+    </main>
+
+    <footer>
+      Dronealo — modelo de negocio. Documento para fines de discusión con inversores ángeles.
+      Proyecciones y cifras son ilustrativas; no constituyen oferta de inversión ni compromiso
+      de resultados. Actualizado para acompañar conversaciones exploratorias.
+    </footer>
+  </div>
+</body>
+</html>
