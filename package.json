@@ -1,0 +1,5 @@
+{
+  "name": "dronealo-app",
+  "private": true,
+  "description": "Sin dependencias npm: las funciones en /api usan fetch nativo (Node 18+ en Vercel)."
+}

@@ -168,6 +168,8 @@
     </style>
   </head>
   <body>
+    <script src="js/auth-demo.js"></script>
+    <script src="js/auth-gate.js"></script>
     <div class="app-shell">
       <div class="app-root">
         <header class="app-top">
@@ -192,6 +194,11 @@
                 <span class="pill progress">En curso</span>
               </div>
               <p>Inspección de obra · Piloto: Carlos R. · Iniciado 14:32 hs</p>
+              <div class="compliance-badges" aria-label="Estado normativo del operador">
+                <span class="badge-compliance badge-compliance--anac">Proveedor verificado ANAC</span>
+                <span class="badge-compliance badge-compliance--seguro">Seguro activo</span>
+                <span class="badge-compliance badge-compliance--vlos">VLOS</span>
+              </div>
 
               <button class="expand-live" id="btnLive" onclick="toggleLive()" aria-expanded="false">
                 <span>📡</span> Ver transmisión en vivo
@@ -343,7 +350,7 @@
           </div>
 
           <div style="margin-top:24px">
-            <a class="btn btn-primary btn-block" href="solicitar.html">Nuevo pedido</a>
+            <a class="btn btn-primary btn-block" href="elegir-categoria.html">Dronea ahora</a>
           </div>
         </main>
       </div>

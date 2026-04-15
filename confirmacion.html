@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
+    <script src="js/auth-demo.js"></script>
+    <script src="js/auth-gate.js"></script>
     <div class="app-shell">
     <div class="app-root">
       <header class="app-top app-top--ledger">
@@ -23,13 +25,13 @@
       </header>
 
       <div class="confirm-body">
-        <div class="success-icon" aria-hidden="true">✓</div>
-        <h2>Listo, recibimos tu pedido</h2>
-        <p class="lead">
+        <div class="success-icon" id="confIcon" aria-hidden="true">✓</div>
+        <h2 id="confTitle">Listo, recibimos tu pedido</h2>
+        <p class="lead" id="confLead">
           Te enviamos un correo con el resumen y el enlace de pago. Cuando se acredite, asignamos la visita y te avisamos la franja horaria.
         </p>
 
-        <div class="track-banner">
+        <div class="track-banner" id="confBanner">
           <strong>Seguimiento en vivo</strong>
           Podés ver el estado en la pestaña Pedidos. Te notificamos cuando el operador esté en camino.
         </div>
@@ -44,10 +46,22 @@
             <dt>Fecha solicitada</dt>
             <dd id="dateLine">—</dd>
           </dl>
-          <div class="timeline">
-            <p>Pago pendiente · link en tu email</p>
-            <p>Asignación de operador tras el pago</p>
-            <p>Vuelo y entrega del material digital</p>
+          <div class="timeline" id="confTimeline">
+            <p id="confT1">Pago pendiente · link en tu email</p>
+            <p id="confT2">Asignación de operador tras el pago</p>
+            <p id="confT3">Vuelo y entrega del material digital</p>
+          </div>
+        </div>
+
+        <div class="compliance-card" aria-label="Cumplimiento normativo">
+          <p class="compliance-card__title">Cumplimiento como diferencial</p>
+          <p>
+            Tu pedido será atendido por un operador que cumple los requisitos de la normativa argentina (ANAC): registro, seguro cuando corresponde y operación acorde al riesgo del vuelo.
+          </p>
+          <div class="compliance-badges">
+            <span class="badge-compliance badge-compliance--anac">Proveedor verificado ANAC</span>
+            <span class="badge-compliance badge-compliance--seguro">Seguro activo</span>
+            <span class="badge-compliance badge-compliance--vlos">Operación VLOS verificada</span>
           </div>
         </div>
 
@@ -69,17 +83,20 @@
     <script>
       (function () {
         var labels = {
-          foto: "Foto y video aéreo",
-          inspeccion: "Inspección",
-          evento: "Eventos",
-          campo: "Campo y agro",
-          construccion: "Obra y construcción",
+          foto: "Audiovisual · Foto y video aéreo",
+          inspeccion: "Inspección técnica",
+          evento: "Audiovisual · Eventos",
+          agro: "Agro · Agricultura y campo",
+          campo: "Agro · Agricultura y campo",
+          construccion: "Otros · Obra y construcción",
         };
         var p = new URLSearchParams(window.location.search);
         var ref = p.get("ref") || "DA-" + Math.random().toString(36).substring(2, 7).toUpperCase();
         var tipo = p.get("tipo");
+        if (tipo === "campo") tipo = "agro";
         var direccion = p.get("direccion");
         var fecha = p.get("fecha");
+        var mp = (p.get("mp") || "").toLowerCase();
 
         document.getElementById("refLine").textContent = ref;
         document.getElementById("svcLine").textContent = (tipo && labels[tipo]) || "—";
@@ -91,6 +108,58 @@
           document.getElementById("dateLine").textContent = d.toLocaleDateString("es-AR", opts);
         } else {
           document.getElementById("dateLine").textContent = "—";
+        }
+
+        var title = document.getElementById("confTitle");
+        var lead = document.getElementById("confLead");
+        var banner = document.getElementById("confBanner");
+        var icon = document.getElementById("confIcon");
+        var t1 = document.getElementById("confT1");
+        var t2 = document.getElementById("confT2");
+        var t3 = document.getElementById("confT3");
+
+        if (mp === "success") {
+          title.textContent = "Pago acreditado (demo)";
+          lead.textContent =
+            "En producción, aquí confirmaríamos el cobro vía webhook. Seguí el pedido en Pedidos; te avisamos cuando asignemos al operador.";
+          if (banner) {
+            banner.innerHTML =
+              "<strong>Próximo paso</strong> Asignación de operador verificado ANAC y coordinación de la visita.";
+          }
+          if (t1) t1.textContent = "Pago recibido · pedido en curso";
+          if (t2) t2.textContent = "Asignación de operador";
+          if (t3) t3.textContent = "Vuelo y entrega del material digital";
+        } else if (mp === "pending") {
+          title.textContent = "Pago en revisión";
+          lead.textContent =
+            "Mercado Pago está procesando el pago. Te avisamos por correo cuando se acredite; podés volver a intentar desde Pedidos si hace falta.";
+          if (icon) icon.textContent = "…";
+          if (t1) t1.textContent = "Pago pendiente de confirmación";
+          if (t2) t2.textContent = "Asignación de operador tras la acreditación";
+          if (t3) t3.textContent = "Vuelo y entrega del material digital";
+        } else if (mp === "failure") {
+          title.textContent = "No se completó el pago";
+          lead.textContent =
+            "Podés volver a solicitar el pedido desde Pedidos o iniciar un nuevo flujo. Si fue un error del medio de pago, probá con otro método.";
+          if (icon) {
+            icon.textContent = "✕";
+            icon.style.background = "rgba(180, 35, 24, 0.12)";
+            icon.style.color = "#b42318";
+          }
+          if (banner) {
+            banner.innerHTML =
+              "<strong>Tip</strong> En la demo sandbox, usá las tarjetas de prueba de Mercado Pago o la opción «Simular pago» en el formulario.";
+          }
+          if (t1) t1.textContent = "Pago no acreditado";
+          if (t2) t2.textContent = "Reintentá el pago para confirmar el pedido";
+          if (t3) t3.textContent = "Una vez pagado: asignación y vuelo";
+        } else if (mp === "simulated") {
+          title.textContent = "Pedido confirmado (simulación)";
+          lead.textContent =
+            "Esta es una demo sin cobro real. En Vercel con token de prueba podés usar el botón «Pagar con Mercado Pago» para abrir Checkout Pro sandbox.";
+          if (t1) t1.textContent = "Pago simulado · sin cargo real";
+          if (t2) t2.textContent = "Asignación de operador (flujo demo)";
+          if (t3) t3.textContent = "Vuelo y entrega del material digital";
         }
       })();
     </script>

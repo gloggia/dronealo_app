@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#004AAD" />
+    <title>Ingresar — Dronealo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="app-root">
+        <header class="onboarding-top">
+          <a href="#" class="back" id="onbBack" style="visibility: hidden" aria-hidden="true" aria-label="Atrás">←</a>
+          <div class="onboarding-logo-wrap">
+            <img
+              class="onboarding-logo"
+              src="assets/logo-isotipo.png"
+              alt=""
+              width="48"
+              height="48"
+              decoding="async"
+            />
+          </div>
+          <span aria-hidden="true"></span>
+        </header>
+
+        <div class="form-wrap onboarding-wrap">
+          <!-- Paso: celular -->
+          <section class="onboarding-step active" data-step="phone">
+            <h1 class="onboarding-title">Ingresá tu celular</h1>
+            <p class="step-hint onboarding-lead">
+              Demo local: sin SMS real. Después del código vas a crear tu perfil o ingresar con la clave
+              <strong>1234567</strong>.
+            </p>
+
+            <div class="phone-field-row">
+              <span class="phone-prefix" aria-hidden="true">🇦🇷 +54</span>
+              <div class="phone-field-grow">
+                <label class="sr-only" for="onbPhone">Número de celular</label>
+                <input
+                  type="tel"
+                  id="onbPhone"
+                  class="onb-input-line"
+                  inputmode="numeric"
+                  autocomplete="tel-national"
+                  placeholder="11 2345 6789"
+                />
+              </div>
+            </div>
+
+            <div class="checkbox-row onboarding-terms">
+              <input type="checkbox" id="onbTerms" />
+              <label for="onbTerms">
+                He leído y acepto los <a href="#">Términos</a> y el <a href="#">Aviso de privacidad</a> (demo).
+              </label>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block onboarding-cta" id="onbPhoneNext" disabled>
+              Siguiente
+            </button>
+
+            <div class="onb-divider"><span>o</span></div>
+
+            <button type="button" class="btn btn-social btn-block" id="onbGoogle">Continuar con Google</button>
+            <button type="button" class="btn btn-social btn-block" id="onbFacebook">Continuar con Facebook</button>
+
+            <p class="form-lead onboarding-footnote">
+              ¿Primera vez? Completá tu celular arriba o usá un método social (simulación).
+            </p>
+          </section>
+
+          <!-- Paso: SMS simulado -->
+          <section class="onboarding-step" data-step="sms">
+            <h1 class="onboarding-title">Código de verificación</h1>
+            <p class="step-hint" id="onbSmsHint"></p>
+            <label class="sr-only" for="onbSmsCode">Código de 6 dígitos</label>
+            <input
+              type="text"
+              id="onbSmsCode"
+              class="onb-input-line onb-input-line--center"
+              inputmode="numeric"
+              maxlength="6"
+              placeholder="••••••"
+              autocomplete="one-time-code"
+            />
+            <button type="button" class="btn btn-primary btn-block onboarding-cta" id="onbSmsNext">Siguiente</button>
+          </section>
+
+          <!-- Paso: contraseña (usuario que ya registró con celular) -->
+          <section class="onboarding-step" data-step="password">
+            <h1 class="onboarding-title">Ingresá tu clave</h1>
+            <p class="step-hint" id="onbPassHint">
+              En esta demo la clave es siempre <strong>1234567</strong> (no hay servidor ni cifrado real).
+            </p>
+            <label class="sr-only" for="onbPassword">Contraseña</label>
+            <input type="password" id="onbPassword" class="onb-input-line" autocomplete="current-password" />
+            <button type="button" class="btn btn-primary btn-block onboarding-cta" id="onbPassNext">Ingresar</button>
+          </section>
+
+          <!-- Paso: perfil nuevo (después de SMS, flujo celular) -->
+          <section class="onboarding-step" data-step="profile">
+            <h1 class="onboarding-title">Mi perfil</h1>
+            <p class="step-hint">Completá tus datos. La cuenta queda guardada solo en este navegador.</p>
+            <label for="profNombre">Nombre</label>
+            <input type="text" id="profNombre" class="onb-input-line onb-input-line--boxed" required autocomplete="given-name" />
+            <label for="profApellido">Apellido</label>
+            <input type="text" id="profApellido" class="onb-input-line onb-input-line--boxed" required autocomplete="family-name" />
+            <label for="profEmail">Correo electrónico</label>
+            <input type="email" id="profEmail" class="onb-input-line onb-input-line--boxed" required autocomplete="email" />
+            <button type="button" class="btn btn-primary btn-block onboarding-cta" id="onbProfileNext">Siguiente</button>
+          </section>
+
+          <!-- Paso: social (simulación) -->
+          <section class="onboarding-step" data-step="social">
+            <h1 class="onboarding-title" id="socTitle">Continuar con Google</h1>
+            <p class="onboarding-badge" id="socBadge">Simulación · no es OAuth real</p>
+            <label for="socNombre">Nombre</label>
+            <input type="text" id="socNombre" class="onb-input-line onb-input-line--boxed" required autocomplete="given-name" />
+            <label for="socApellido">Apellido</label>
+            <input type="text" id="socApellido" class="onb-input-line onb-input-line--boxed" required autocomplete="family-name" />
+            <label for="socEmail">Correo electrónico</label>
+            <input type="email" id="socEmail" class="onb-input-line onb-input-line--boxed" required autocomplete="email" />
+            <button type="button" class="btn btn-primary btn-block onboarding-cta" id="onbSocialNext">Siguiente</button>
+          </section>
+        </div>
+      </div>
+
+      <nav class="tab-bar" aria-label="Principal">
+        <a href="index.html"><span class="ti">⌂</span>Inicio</a>
+        <a href="servicios.html"><span class="ti">☰</span>Servicios</a>
+        <a href="pedidos.html"><span class="ti">◫</span>Pedidos</a>
+        <a href="perfil.html"><span class="ti">○</span>Perfil</a>
+      </nav>
+    </div>
+
+    <script src="js/auth-demo.js"></script>
+    <script src="js/login-onboarding.js"></script>
+  </body>
+</html>

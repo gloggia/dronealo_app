@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
+    <script src="js/auth-demo.js"></script>
+    <script src="js/auth-gate.js"></script>
     <div class="app-shell">
     <div class="app-root">
       <header class="app-top">
@@ -33,20 +35,29 @@
       </header>
 
       <main class="app-main">
-        <div class="profile-header">
-          <div class="avatar" aria-hidden="true">MG</div>
+        <div class="profile-header" id="profileHeader">
+          <div class="avatar" id="profileAvatar" aria-hidden="true">?</div>
           <div class="who">
-            <strong>María González</strong>
-            <span>maria.gonzalez@email.com</span>
+            <strong id="profileName">Invitado</strong>
+            <span id="profileEmail">Iniciá sesión para personalizar tu perfil</span>
+            <small class="profile-meta" id="profileMeta" hidden></small>
           </div>
         </div>
 
-        <div class="menu-list">
+        <div class="menu-list" id="guestMenu" hidden>
+          <a class="menu-item" href="login.html?return=perfil.html"><span>Ingresar</span><small>›</small></a>
+          <a class="menu-item" href="registro.html?return=perfil.html"><span>Crear cuenta</span><small>›</small></a>
+        </div>
+
+        <div class="menu-list" id="userMenu" hidden>
           <a class="menu-item" href="#"><span>Métodos de pago</span><small>Visa ·••• 4242</small></a>
           <a class="menu-item" href="#"><span>Direcciones guardadas</span><small>›</small></a>
           <a class="menu-item" href="#"><span>Notificaciones</span><small>Activadas</small></a>
           <a class="menu-item" href="#"><span>Ayuda</span><small>›</small></a>
           <a class="menu-item" href="#"><span>Privacidad y datos</span><small>›</small></a>
+          <button type="button" class="menu-item menu-item--button" id="btnLogout">
+            <span>Cerrar sesión</span><small>Salir de la demo</small>
+          </button>
         </div>
 
         <p class="form-lead" style="margin-top: 24px; text-align: center; font-size: 0.82rem">
@@ -62,5 +73,46 @@
         <a class="active" href="perfil.html"><span class="ti">○</span>Perfil</a>
       </nav>
     </div>
+
+    <script>
+      (function () {
+        var A = window.DronealoAuthDemo;
+        var s = A.getSession();
+        var guest = document.getElementById("guestMenu");
+        var user = document.getElementById("userMenu");
+        var nameEl = document.getElementById("profileName");
+        var emailEl = document.getElementById("profileEmail");
+        var av = document.getElementById("profileAvatar");
+        var meta = document.getElementById("profileMeta");
+
+        if (s) {
+          guest.hidden = true;
+          user.hidden = false;
+          nameEl.textContent = A.displayName(s) || s.nombre;
+          emailEl.textContent = s.email;
+          av.textContent = A.initials(s);
+          if (meta) {
+            var bits = [];
+            if (s.telefono) bits.push(s.telefono);
+            var labels = { phone: "Celular", google: "Google", facebook: "Facebook" };
+            bits.push(labels[s.authProvider] || s.authProvider || "Cuenta demo");
+            meta.textContent = bits.join(" · ");
+            meta.hidden = false;
+          }
+        } else {
+          guest.hidden = false;
+          user.hidden = true;
+          if (meta) meta.hidden = true;
+        }
+
+        var btn = document.getElementById("btnLogout");
+        if (btn) {
+          btn.addEventListener("click", function () {
+            A.clearSession();
+            window.location.href = "login.html";
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

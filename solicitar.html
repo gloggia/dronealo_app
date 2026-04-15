@@ -14,10 +14,12 @@
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
+    <script src="js/auth-demo.js"></script>
+    <script src="js/auth-gate.js"></script>
     <div class="app-shell">
     <div class="app-root">
       <header class="app-top app-top--ledger">
-        <a href="index.html" class="back" aria-label="Volver">←</a>
+        <a href="elegir-categoria.html" class="back" aria-label="Cambiar categoría">←</a>
         <h1>Nuevo pedido</h1>
         <span class="app-top__spacer" aria-hidden="true"></span>
       </header>
@@ -32,18 +34,16 @@
           </div>
 
           <div class="step-panel active" data-panel="0">
-            <h2 class="step-title">Servicio y ubicación</h2>
-            <p class="step-hint">Decinos qué necesitás y dónde se realiza el vuelo.</p>
+            <h2 class="step-title">Ubicación del vuelo</h2>
+            <p class="step-hint">Indicá dónde se realiza el trabajo. Ya elegiste la categoría del proyecto.</p>
 
-            <label for="tipo">Tipo de servicio</label>
-            <select id="tipo" name="tipo" required>
-              <option value="">Seleccionar</option>
-              <option value="foto">Foto y video aéreo</option>
-              <option value="inspeccion">Inspección</option>
-              <option value="evento">Eventos</option>
-              <option value="campo">Campo y agro</option>
-              <option value="construccion">Obra y construcción</option>
-            </select>
+            <p class="picked-category" id="pickedCategoryLabel" aria-live="polite"></p>
+
+            <p class="form-compliance-hint">
+              <strong>Validación de proveedores:</strong> revisamos registro ante ANAC, póliza de seguro al día y que el tipo de operación (por ejemplo VLOS) sea el adecuado para tu pedido.
+            </p>
+
+            <input type="hidden" id="tipo" name="tipo" value="" />
 
             <label for="direccion">Dirección o zona</label>
             <input
@@ -102,13 +102,15 @@
 
           <div class="step-panel" data-panel="3">
             <h2 class="step-title">Confirmar y pagar</h2>
-            <p class="step-hint">Revisá el total. Podés abonar con tarjeta o transferencia cuando recibas el link.</p>
+            <p class="step-hint">
+              Revisá el total. Con Mercado Pago (sandbox en Vercel) abrís el checkout; si no hay credenciales configuradas, usá la opción demo abajo.
+            </p>
 
             <div class="price-box">
               <div class="label">Total estimado</div>
               <div class="amount" id="precioDisplay">$120.000</div>
               <div class="detail">
-                Incluye desplazamiento en zona estándar, sesión de vuelo y entrega digital en alta definición. Si el lugar requiere permisos adicionales, te avisamos antes de cobrar.
+                Incluye desplazamiento en zona estándar, sesión de vuelo y entrega digital en alta definición. Si el lugar requiere permisos adicionales, te avisamos antes de cobrar. El operador asignado figura como <strong>verificado ANAC</strong> con <strong>seguro activo</strong> cuando corresponde.
               </div>
             </div>
 
@@ -121,9 +123,16 @@
 
             <input type="hidden" name="ref" id="refField" value="" />
 
-            <div class="form-actions">
+            <p class="form-pay-hint" id="payError" role="alert" hidden></p>
+
+            <div class="form-actions form-actions--stack">
               <button type="button" class="btn btn-secondary btn-prev">Atrás</button>
-              <button type="submit" class="btn btn-primary">Reservar pedido</button>
+              <button type="button" class="btn btn-primary btn-block" id="btnPagarMp">
+                Pagar con Mercado Pago
+              </button>
+              <button type="button" class="btn btn-secondary btn-block" id="btnSimularPago">
+                Simular pago aprobado (demo)
+              </button>
             </div>
           </div>
         </form>

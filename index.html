@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
+    <script src="js/auth-demo.js"></script>
+    <script src="js/auth-gate.js"></script>
     <div class="app-shell">
     <div class="app-root">
       <header class="app-top">
@@ -35,35 +37,11 @@
 
       <main class="app-main">
         <p class="home-hello">Hola</p>
-        <h2 class="home-title">¿Qué querés capturar desde el aire?</h2>
+        <h2 class="home-title">¿Estás listo para dronear?</h2>
 
         <div class="hero-card">
-          <p>Reservá fecha, indicá la ubicación y recibí el material listo para publicar.</p>
-          <a class="btn btn-primary btn-block" href="solicitar.html">Nuevo pedido</a>
-        </div>
-
-        <p class="section-label">Servicios</p>
-        <div class="shortcuts">
-          <a class="shortcut" href="solicitar.html?tipo=foto">
-            <span class="emoji" aria-hidden="true">📷</span>
-            <strong>Foto y video</strong>
-            <span>Propiedades y espacios</span>
-          </a>
-          <a class="shortcut" href="solicitar.html?tipo=inspeccion">
-            <span class="emoji" aria-hidden="true">🔍</span>
-            <strong>Inspección</strong>
-            <span>Techos y obra</span>
-          </a>
-          <a class="shortcut" href="solicitar.html?tipo=evento">
-            <span class="emoji" aria-hidden="true">🎉</span>
-            <strong>Eventos</strong>
-            <span>Cobertura aérea</span>
-          </a>
-          <a class="shortcut" href="servicios.html">
-            <span class="emoji" aria-hidden="true">⋯</span>
-            <strong>Ver todos</strong>
-            <span>Más opciones</span>
-          </a>
+          <p>Ingresa los datos y publica el proyecto.</p>
+          <a class="btn btn-primary btn-block" href="elegir-categoria.html">Dronea ahora</a>
         </div>
 
         <p class="section-label">Actividad reciente</p>
@@ -85,5 +63,17 @@
         <a href="perfil.html"><span class="ti" aria-hidden="true">○</span>Perfil</a>
       </nav>
     </div>
+    <script>
+      (function () {
+        var A = window.DronealoAuthDemo;
+        if (!A) return;
+        var s = A.getSession();
+        var el = document.querySelector(".home-hello");
+        if (el && s && s.nombre) {
+          var first = (s.nombre || "").split(/\s+/)[0];
+          el.textContent = first ? "Hola, " + first : "Hola";
+        }
+      })();
+    </script>
   </body>
 </html>
