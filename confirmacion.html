@@ -31,6 +31,14 @@
           Te enviamos un correo con el resumen y el enlace de pago. Cuando se acredite, asignamos la visita y te avisamos la franja horaria.
         </p>
 
+        <ul class="confirm-next-steps" id="confSteps">
+          <li id="confStep1">Guardá tu número de pedido para cualquier consulta.</li>
+          <li id="confStep2">Te avisamos por el canal de contacto que indicaste cuando asignemos operador.</li>
+          <li id="confStep3">El material digital quedará disponible en Pedidos al finalizar el vuelo.</li>
+        </ul>
+
+        <div class="contact-line" id="contactLine" hidden></div>
+
         <div class="track-banner" id="confBanner">
           <strong>Seguimiento en vivo</strong>
           Podés ver el estado en la pestaña Pedidos. Te notificamos cuando el operador esté en camino.
@@ -45,7 +53,14 @@
             <dd id="locLine">—</dd>
             <dt>Fecha solicitada</dt>
             <dd id="dateLine">—</dd>
+            <dt>Total</dt>
+            <dd id="montoLine">—</dd>
+            <dt>Asignación estimada</dt>
+            <dd id="etaLine">—</dd>
           </dl>
+          <div class="deliverable-link" id="deliverableHint">
+            <span>Material digital:</span> lo vas a ver en <strong>Pedidos</strong> cuando el operador suba los archivos (demo).
+          </div>
           <div class="timeline" id="confTimeline">
             <p id="confT1">Pago pendiente · link en tu email</p>
             <p id="confT2">Asignación de operador tras el pago</p>
@@ -73,10 +88,30 @@
     </div>
 
       <nav class="tab-bar" aria-label="Principal">
-        <a href="index.html"><span class="ti">⌂</span>Inicio</a>
-        <a href="servicios.html"><span class="ti">☰</span>Servicios</a>
-        <a class="active" href="pedidos.html"><span class="ti">◫</span>Pedidos</a>
-        <a href="perfil.html"><span class="ti">○</span>Perfil</a>
+        <a href="index.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+          >Inicio</a
+        >
+        <a href="servicios.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+          >Servicios</a
+        >
+        <a class="active" href="pedidos.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+          >Pedidos</a
+        >
+        <a href="perfil.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+          >Perfil</a
+        >
       </nav>
     </div>
 
@@ -97,10 +132,47 @@
         var direccion = p.get("direccion");
         var fecha = p.get("fecha");
         var mp = (p.get("mp") || "").toLowerCase();
+        var monto = p.get("monto");
+        var eta = p.get("eta");
+        var ops = p.get("operadores");
+        var email = p.get("email");
+        var tel = p.get("telefono");
+
+        function fmtMoney(n) {
+          if (!n) return "—";
+          var x = parseInt(n, 10);
+          if (isNaN(x)) return "—";
+          return "$" + x.toLocaleString("es-AR");
+        }
 
         document.getElementById("refLine").textContent = ref;
         document.getElementById("svcLine").textContent = (tipo && labels[tipo]) || "—";
         document.getElementById("locLine").textContent = direccion || "—";
+
+        var montoEl = document.getElementById("montoLine");
+        if (montoEl) montoEl.textContent = fmtMoney(monto);
+
+        var etaEl = document.getElementById("etaLine");
+        if (etaEl) {
+          if (eta) {
+            etaEl.textContent =
+              "~" +
+              eta +
+              " min para asignación típica" +
+              (ops ? " · " + ops + " operadores en zona (simulación)" : "");
+          } else {
+            etaEl.textContent = "—";
+          }
+        }
+
+        var contact = document.getElementById("contactLine");
+        if (contact && (email || tel)) {
+          contact.hidden = false;
+          var bits = [];
+          if (email) bits.push("Email: " + decodeURIComponent(email.replace(/\+/g, " ")));
+          if (tel) bits.push("Tel: " + decodeURIComponent(tel.replace(/\+/g, " ")));
+          contact.textContent = "Contacto para avisos: " + bits.join(" · ");
+        }
 
         if (fecha) {
           var d = new Date(fecha + "T12:00:00");
@@ -121,14 +193,16 @@
         if (mp === "success") {
           title.textContent = "Pago acreditado (demo)";
           lead.textContent =
-            "En producción, aquí confirmaríamos el cobro vía webhook. Seguí el pedido en Pedidos; te avisamos cuando asignemos al operador.";
+            "Pedido " +
+            ref +
+            " registrado. Te avisamos por tu contacto cuando asignemos operador. Seguimiento en Pedidos.";
           if (banner) {
             banner.innerHTML =
               "<strong>Próximo paso</strong> Asignación de operador verificado ANAC y coordinación de la visita.";
           }
           if (t1) t1.textContent = "Pago recibido · pedido en curso";
-          if (t2) t2.textContent = "Asignación de operador";
-          if (t3) t3.textContent = "Vuelo y entrega del material digital";
+          if (t2) t2.textContent = "Asignación de operador (~" + (eta || "…") + " min típicos)";
+          if (t3) t3.textContent = "Vuelo y entrega del material digital en Pedidos";
         } else if (mp === "pending") {
           title.textContent = "Pago en revisión";
           lead.textContent =
@@ -156,10 +230,18 @@
         } else if (mp === "simulated") {
           title.textContent = "Pedido confirmado (simulación)";
           lead.textContent =
-            "Esta es una demo sin cobro real. En Vercel con token de prueba podés usar el botón «Pagar con Mercado Pago» para abrir Checkout Pro sandbox.";
+            "Pedido " +
+            ref +
+            " listo. Sin cobro real en esta demo. En Vercel con token de prueba podés usar «Pagar con Mercado Pago» (Checkout Pro sandbox).";
           if (t1) t1.textContent = "Pago simulado · sin cargo real";
-          if (t2) t2.textContent = "Asignación de operador (flujo demo)";
-          if (t3) t3.textContent = "Vuelo y entrega del material digital";
+          if (t2)
+            t2.textContent =
+              "Asignación estimada en ~" + (eta || "45") + " min · " + (ops || "varios") + " operadores en zona (simulación)";
+          if (t3) t3.textContent = "Vuelo y entrega del material digital en Pedidos";
+          if (banner) {
+            banner.innerHTML =
+              "<strong>Seguimiento</strong> Abrí Pedidos para ver el estado y, al finalizar, el enlace de descarga del material.";
+          }
         }
       })();
     </script>

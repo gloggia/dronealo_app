@@ -7,6 +7,14 @@
     return;
   }
 
+  var btnGuest = document.getElementById("btnGuest");
+  if (btnGuest) {
+    btnGuest.addEventListener("click", function () {
+      A.loginAsGuest();
+      window.location.href = A.loginReturnUrl();
+    });
+  }
+
   var steps = document.querySelectorAll(".onboarding-step");
   var btnBack = document.getElementById("onbBack");
   var pendingPhone = "";
@@ -73,8 +81,8 @@
       var hint = document.getElementById("onbSmsHint");
       if (hint) {
         hint.textContent = isReturningUser
-          ? "Código simulado: cualquier 6 dígitos (ej. 123456). Luego te pediremos la clave " + A.DEMO_PASSWORD + "."
-          : "Primera vez: código simulado de 6 dígitos (ej. 123456). Después completás tu perfil.";
+          ? "Ingresá 6 dígitos (simulación). Después te pediremos la clave de tu cuenta en este dispositivo."
+          : "Primera vez: ingresá 6 dígitos (simulación). Después completás tu perfil.";
       }
       var smsIn = document.getElementById("onbSmsCode");
       if (smsIn) smsIn.value = "";
@@ -106,7 +114,7 @@
       var inp = document.getElementById("onbPassword");
       if (!inp || !A.verifyDemoPassword(inp.value)) {
         if (inp) {
-          inp.setCustomValidity("Clave de prueba: " + A.DEMO_PASSWORD);
+          inp.setCustomValidity("Clave incorrecta para esta cuenta de prueba.");
           inp.reportValidity();
           inp.setCustomValidity("");
         }
@@ -190,8 +198,7 @@
         showStep("password");
         var ph = document.getElementById("onbPassHint");
         if (ph) {
-          ph.textContent =
-            "Esta cuenta ya existe (demo). Clave de prueba: " + A.DEMO_PASSWORD + ".";
+          ph.textContent = "Esta cuenta ya existe en esta demo. Ingresá la clave que usaste al registrarte.";
         }
         return;
       }

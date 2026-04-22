@@ -96,6 +96,7 @@
       apellido: typeof o.apellido === "string" ? o.apellido.trim() : "",
       telefono: typeof o.telefono === "string" ? o.telefono.trim() : "",
       authProvider: o.authProvider || "phone",
+      guest: o.guest === true,
     };
   }
 
@@ -109,6 +110,21 @@
         apellido: String(session.apellido || "").trim(),
         telefono: String(session.telefono || "").trim(),
         authProvider: session.authProvider || "phone",
+        guest: session.guest === true,
+      })
+    );
+  }
+
+  function loginAsGuest() {
+    sessionStorage.setItem(
+      KEY,
+      JSON.stringify({
+        email: "invitado@demo.dronealo.app",
+        nombre: "Invitado",
+        apellido: "",
+        telefono: "",
+        authProvider: "guest",
+        guest: true,
       })
     );
   }
@@ -160,6 +176,7 @@
     DEMO_SMS_CODE: DEMO_SMS_CODE,
     getSession: getSession,
     setSession: setSession,
+    loginAsGuest: loginAsGuest,
     clearSession: clearSession,
     initials: initials,
     displayName: displayName,

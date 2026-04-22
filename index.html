@@ -17,62 +17,208 @@
   <body>
     <script src="js/auth-demo.js"></script>
     <script src="js/auth-gate.js"></script>
-    <div class="app-shell">
-    <div class="app-root">
-      <header class="app-top">
-        <a href="index.html" class="brand brand--compact" aria-label="Dronealo inicio">
-          <img
-            class="brand-mark"
-            src="assets/logo-isotipo.png"
-            alt=""
-            width="40"
-            height="40"
-            decoding="async"
-          />
-          <span class="brand-wordmark" aria-hidden="true">
-            <span class="brand-wordmark__blue">DRONE</span><span class="brand-wordmark__orange">ALO</span>
-          </span>
-        </a>
-      </header>
 
-      <main class="app-main">
-        <p class="home-hello">Hola</p>
-        <h2 class="home-title">¿Estás listo para dronear?</h2>
-
-        <div class="hero-card">
-          <p>Ingresa los datos y publica el proyecto.</p>
-          <a class="btn btn-primary btn-block" href="elegir-categoria.html">Dronea ahora</a>
+    <div id="onboardingRoot" class="onboarding-overlay" hidden>
+      <div class="onboarding-card" role="dialog" aria-labelledby="onbTitle" aria-modal="true">
+        <div class="onboarding-dots" id="onbDots">
+          <span class="active"></span>
+          <span></span>
+          <span></span>
         </div>
-
-        <p class="section-label">Actividad reciente</p>
-        <div class="order-preview">
-          <div class="row">
-            <span class="id">Pedido DA-72M91</span>
-            <span class="status">Entregado</span>
-          </div>
-          <p class="meta">Fotografía aérea · Zona norte · Hace 5 días</p>
-          <a class="link" href="pedidos.html">Ver mis pedidos</a>
-        </div>
-      </main>
+        <h2 id="onbTitle">Pedí vuelos con operadores verificados</h2>
+        <p id="onbBody">
+          Dronealo conecta tu proyecto con pilotos que cumplen registro ANAC y seguro al día. Sin buscar contactos al azar.
+        </p>
+        <button type="button" class="btn btn-primary btn-block" id="onbNext">Siguiente</button>
+        <button type="button" class="btn btn-secondary btn-block" id="onbSkip" style="margin-top: 10px">Omitir</button>
+      </div>
     </div>
 
+    <div class="app-shell">
+      <div class="app-root">
+        <header class="app-top">
+          <a href="index.html" class="brand brand--compact" aria-label="Dronealo inicio">
+            <img
+              class="brand-mark"
+              src="assets/logo-isotipo.png"
+              alt=""
+              width="40"
+              height="40"
+              decoding="async"
+            />
+            <span class="brand-wordmark" aria-hidden="true">
+              <span class="brand-wordmark__blue">DRONE</span><span class="brand-wordmark__orange">ALO</span>
+            </span>
+          </a>
+        </header>
+
+        <main class="app-main">
+          <p class="home-hello">Hola</p>
+          <h2 class="home-title">Quiero dronear</h2>
+
+          <p class="form-lead" style="margin-top: -8px; margin-bottom: 14px">
+            Publicá tu pedido en minutos y coordiná el vuelo con operadores verificados.
+          </p>
+
+          <div class="value-grid">
+            <div class="value-card">
+              <div class="value-card__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </div>
+              <div>
+                <h3>Verificación ANAC y seguro</h3>
+                <p>Revisamos registro, póliza y tipo de operación antes de asignar. Menos riesgo para tu obra o tu cliente.</p>
+              </div>
+            </div>
+            <div class="value-card">
+              <div class="value-card__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+              </div>
+              <div>
+                <h3>Precio desglosado y seguimiento</h3>
+                <p>Total estimado con base por servicio y zona. Coordinación y estado del pedido en la app.</p>
+              </div>
+            </div>
+            <div class="value-card">
+              <div class="value-card__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <div>
+                <h3>Cobertura y tiempos</h3>
+                <p>Te mostramos disponibilidad simulada por zona y ventanas típicas de asignación antes de pagar.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="home-meta-row">
+            <span class="home-chip">Zona activa: AMBA · simulación</span>
+            <span class="home-chip">Clima vuelo: favorable · demo</span>
+          </div>
+
+          <div class="hero-card">
+            <p>Contanos qué necesitás y te ayudamos a elegir el mejor servicio para tu vuelo.</p>
+            <a class="btn btn-primary btn-block" href="servicios.html">Quiero dronear</a>
+            <p style="margin: 14px 0 0; font-size: var(--text-caption); color: var(--muted); text-align: center">
+              ¿Primera vez? <a href="login.html" style="color: var(--brand-blue); font-weight: 700">Ingresá</a> o
+              <a href="login.html" style="color: var(--brand-blue); font-weight: 700">continuar como invitado</a> desde el login.
+            </p>
+          </div>
+
+          <p class="section-label">Actividad reciente</p>
+          <div class="order-preview">
+            <div class="row">
+              <span class="id">Pedido DA-72M91</span>
+              <span class="status">Entregado</span>
+            </div>
+            <p class="meta">Fotografía aérea · Zona norte · Hace 5 días</p>
+            <a class="link" href="pedidos.html">Ver mis pedidos</a>
+          </div>
+        </main>
+      </div>
+
       <nav class="tab-bar" aria-label="Principal">
-        <a class="active" href="index.html"><span class="ti" aria-hidden="true">⌂</span>Inicio</a>
-        <a href="servicios.html"><span class="ti" aria-hidden="true">☰</span>Servicios</a>
-        <a href="pedidos.html"><span class="ti" aria-hidden="true">◫</span>Pedidos</a>
-        <a href="perfil.html"><span class="ti" aria-hidden="true">○</span>Perfil</a>
+        <a class="active" href="index.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+          >Inicio</a
+        >
+        <a href="servicios.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+          >Servicios</a
+        >
+        <a href="pedidos.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+          >Pedidos</a
+        >
+        <a href="perfil.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+          >Perfil</a
+        >
       </nav>
     </div>
     <script>
       (function () {
         var A = window.DronealoAuthDemo;
-        if (!A) return;
-        var s = A.getSession();
-        var el = document.querySelector(".home-hello");
-        if (el && s && s.nombre) {
-          var first = (s.nombre || "").split(/\s+/)[0];
-          el.textContent = first ? "Hola, " + first : "Hola";
+        if (A) {
+          var s = A.getSession();
+          var el = document.querySelector(".home-hello");
+          if (el && s && s.nombre) {
+            var first = (s.nombre || "").split(/\s+/)[0];
+            el.textContent = first ? "Hola, " + first : "Hola";
+          }
         }
+        var ONB = "dronealo_onboarding_v1";
+        var root = document.getElementById("onboardingRoot");
+        var slides = [
+          {
+            title: "Pedí vuelos con operadores verificados",
+            body:
+              "Dronealo conecta tu proyecto con pilotos que cumplen registro ANAC y seguro al día. Sin buscar contactos al azar.",
+          },
+          {
+            title: "Precio claro y seguimiento en la app",
+            body: "Ves un total estimado con desglose, disponibilidad simulada por zona y el estado del pedido cuando corresponda.",
+          },
+          {
+            title: "Listo para empezar",
+            body: "Elegí servicio, ubicación y fecha. Coordinamos tu pedido y te mostramos el avance desde la app.",
+          },
+        ];
+        var step = 0;
+        var titleEl = document.getElementById("onbTitle");
+        var bodyEl = document.getElementById("onbBody");
+        var dots = document.querySelectorAll("#onbDots span");
+        var btnNext = document.getElementById("onbNext");
+        var btnSkip = document.getElementById("onbSkip");
+
+        function renderOnb() {
+          if (!titleEl || !bodyEl) return;
+          titleEl.textContent = slides[step].title;
+          bodyEl.textContent = slides[step].body;
+          dots.forEach(function (d, i) {
+            d.classList.toggle("active", i === step);
+          });
+          if (btnNext) btnNext.textContent = step === slides.length - 1 ? "Empezar" : "Siguiente";
+        }
+
+        try {
+          if (!localStorage.getItem(ONB) && root) {
+            root.hidden = false;
+            renderOnb();
+          }
+        } catch (e) {}
+
+        function closeOnb() {
+          try {
+            localStorage.setItem(ONB, "1");
+          } catch (e) {}
+          if (root) root.hidden = true;
+        }
+
+        if (btnNext) {
+          btnNext.addEventListener("click", function () {
+            if (step < slides.length - 1) {
+              step++;
+              renderOnb();
+            } else closeOnb();
+          });
+        }
+        if (btnSkip) btnSkip.addEventListener("click", closeOnb);
       })();
     </script>
   </body>

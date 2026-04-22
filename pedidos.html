@@ -200,6 +200,14 @@
                 <span class="badge-compliance badge-compliance--vlos">VLOS</span>
               </div>
 
+              <div class="pilot-card" aria-label="Operador asignado (simulación)">
+                <div class="pilot-card__avatar" aria-hidden="true">CR</div>
+                <div>
+                  <strong style="font-size: var(--text-small)">Carlos R.</strong>
+                  <p class="pilot-card__meta">4,9 ★ · 128 vuelos · Certificación RPAS · simulación</p>
+                </div>
+              </div>
+
               <button class="expand-live" id="btnLive" onclick="toggleLive()" aria-expanded="false">
                 <span>📡</span> Ver transmisión en vivo
                 <span class="chev">▾</span>
@@ -338,6 +346,8 @@
                 <span class="pill done">Entregado</span>
               </div>
               <p>Foto aéreo · Martes 18 mar · Material en tu bandeja</p>
+              <a href="#" class="deliverable-link" onclick="return false;">Descargar material (demo)</a>
+              <button type="button" class="rating-btn" disabled>Valorar servicio (pronto)</button>
             </article>
 
             <article class="order-card">
@@ -350,16 +360,36 @@
           </div>
 
           <div style="margin-top:24px">
-            <a class="btn btn-primary btn-block" href="elegir-categoria.html">Dronea ahora</a>
+            <a class="btn btn-primary btn-block" href="servicios.html">Dronea ahora</a>
           </div>
         </main>
       </div>
 
       <nav class="tab-bar" aria-label="Principal">
-        <a href="index.html"><span class="ti">⌂</span>Inicio</a>
-        <a href="servicios.html"><span class="ti">☰</span>Servicios</a>
-        <a class="active" href="pedidos.html"><span class="ti">◫</span>Pedidos</a>
-        <a href="perfil.html"><span class="ti">○</span>Perfil</a>
+        <a href="index.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+          >Inicio</a
+        >
+        <a href="servicios.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+          >Servicios</a
+        >
+        <a class="active" href="pedidos.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+          >Pedidos</a
+        >
+        <a href="perfil.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+          >Perfil</a
+        >
       </nav>
     </div>
 

@@ -36,8 +36,7 @@
           <section class="onboarding-step active" data-step="phone">
             <h1 class="onboarding-title">Ingresá tu celular</h1>
             <p class="step-hint onboarding-lead">
-              Demo local: sin SMS real. Después del código vas a crear tu perfil o ingresar con la clave
-              <strong>1234567</strong>.
+              Demo local: sin SMS real. Ingresá cualquier código de 6 dígitos; si ya tenés cuenta, te pediremos tu clave.
             </p>
 
             <div class="phone-field-row">
@@ -71,8 +70,10 @@
             <button type="button" class="btn btn-social btn-block" id="onbGoogle">Continuar con Google</button>
             <button type="button" class="btn btn-social btn-block" id="onbFacebook">Continuar con Facebook</button>
 
+            <button type="button" class="btn btn-secondary btn-block" id="btnGuest">Entrar como invitado</button>
+
             <p class="form-lead onboarding-footnote">
-              ¿Primera vez? Completá tu celular arriba o usá un método social (simulación).
+              Invitado: podés explorar la app; para un pedido completo conviene crear cuenta o completar datos al finalizar.
             </p>
           </section>
 
@@ -96,9 +97,7 @@
           <!-- Paso: contraseña (usuario que ya registró con celular) -->
           <section class="onboarding-step" data-step="password">
             <h1 class="onboarding-title">Ingresá tu clave</h1>
-            <p class="step-hint" id="onbPassHint">
-              En esta demo la clave es siempre <strong>1234567</strong> (no hay servidor ni cifrado real).
-            </p>
+            <p class="step-hint" id="onbPassHint">Ingresá la clave de tu cuenta de prueba en este navegador.</p>
             <label class="sr-only" for="onbPassword">Contraseña</label>
             <input type="password" id="onbPassword" class="onb-input-line" autocomplete="current-password" />
             <button type="button" class="btn btn-primary btn-block onboarding-cta" id="onbPassNext">Ingresar</button>
@@ -133,10 +132,30 @@
       </div>
 
       <nav class="tab-bar" aria-label="Principal">
-        <a href="index.html"><span class="ti">⌂</span>Inicio</a>
-        <a href="servicios.html"><span class="ti">☰</span>Servicios</a>
-        <a href="pedidos.html"><span class="ti">◫</span>Pedidos</a>
-        <a href="perfil.html"><span class="ti">○</span>Perfil</a>
+        <a href="index.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+          >Inicio</a
+        >
+        <a href="servicios.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+          >Servicios</a
+        >
+        <a href="pedidos.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+          >Pedidos</a
+        >
+        <a href="perfil.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+          >Perfil</a
+        >
       </nav>
     </div>
 

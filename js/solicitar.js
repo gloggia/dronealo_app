@@ -1,28 +1,18 @@
 (function () {
+  var P = window.DronealoPricingDemo;
+  var A = window.DronealoAuthDemo;
+  if (!P) return;
+
   var panels = document.querySelectorAll(".step-panel");
   var dots = document.querySelectorAll(".step-dot");
   var current = 0;
 
   var tipo = document.getElementById("tipo");
   var precioDisplay = document.getElementById("precioDisplay");
+  var priceBreakdownEl = document.getElementById("priceBreakdown");
   var pickedCategoryLabel = document.getElementById("pickedCategoryLabel");
-  var precios = {
-    foto: "$120.000",
-    inspeccion: "$145.000",
-    evento: "$180.000",
-    agro: "$165.000",
-    campo: "$165.000",
-    construccion: "$155.000",
-  };
-
-  var preciosARS = {
-    foto: 120000,
-    inspeccion: 145000,
-    evento: 180000,
-    agro: 165000,
-    campo: 165000,
-    construccion: 155000,
-  };
+  var direccionInput = document.getElementById("direccion");
+  var availBox = document.getElementById("availabilityBox");
 
   var categoriaPorTipo = {
     foto: "Audiovisual · Foto y video aéreo",
@@ -35,17 +25,11 @@
 
   var tiposValidos = { foto: 1, evento: 1, inspeccion: 1, agro: 1, construccion: 1, campo: 1 };
 
-  function updatePrice() {
-    if (tipo && precioDisplay && tipo.value && precios[tipo.value]) {
-      precioDisplay.textContent = precios[tipo.value];
-    }
-  }
-
   function setTipoDesdeUrl() {
     var q = new URLSearchParams(window.location.search).get("tipo");
     if (q === "campo") q = "agro";
     if (!q || !tiposValidos[q]) {
-      window.location.replace("elegir-categoria.html");
+      window.location.replace("servicios.html");
       return false;
     }
     if (tipo) tipo.value = q;
@@ -53,11 +37,97 @@
       pickedCategoryLabel.innerHTML =
         '<strong style="color:var(--brand-blue-dark)">Categoría:</strong> ' + categoriaPorTipo[q];
     }
-    updatePrice();
+    refreshPricingAndAvailability();
     return true;
   }
 
   if (!setTipoDesdeUrl()) return;
+
+  function refreshPricingAndAvailability() {
+    var t = tipo && tipo.value;
+    if (t === "campo") t = "agro";
+    var dir = direccionInput && direccionInput.value;
+    var sig = P.availabilitySignals(dir, t);
+    if (availBox) {
+      if (!dir || !String(dir).trim()) {
+        availBox.hidden = true;
+      } else {
+        availBox.hidden = false;
+        availBox.innerHTML =
+          '<p class="availability-strip__title">Disponibilidad en tu zona <span class="availability-strip__badge">simulación</span></p>' +
+          '<p class="availability-strip__line"><strong>' +
+          sig.pilots +
+          "</strong> operadores con perfil compatible cerca de tu ubicación.</p>" +
+          '<p class="availability-strip__line">' +
+          sig.nextSlot +
+          "</p>" +
+          '<p class="availability-strip__meta">Asignación estimada: ~' +
+          sig.etaMin +
+          " min en condiciones típicas.</p>";
+      }
+    }
+
+    var b = P.computeBreakdown(t, dir);
+    if (precioDisplay) precioDisplay.textContent = P.formatARS(b.total);
+    if (priceBreakdownEl) {
+      priceBreakdownEl.innerHTML =
+        '<div class="price-lines">' +
+        '<div class="price-line"><span>' +
+        b.baseLabel +
+        "</span><span>" +
+        P.formatARS(b.base) +
+        "</span></div>" +
+        (b.zona > 0
+          ? '<div class="price-line"><span>' +
+            b.zonaLabel +
+            "</span><span>" +
+            P.formatARS(b.zona) +
+            "</span></div>"
+          : "") +
+        '<div class="price-line"><span>' +
+        b.segmentLabel +
+        "</span><span>× " +
+        (b.segmentMult === 1 ? "1" : b.segmentMult.toFixed(2).replace(".", ",")) +
+        "</span></div>" +
+        "</div>";
+    }
+  }
+
+  if (direccionInput) {
+    direccionInput.addEventListener(
+      "input",
+      function () {
+        refreshPricingAndAvailability();
+      },
+      { passive: true }
+    );
+  }
+
+  function prefillUser() {
+    if (!A) return;
+    var s = A.getSession();
+    if (!s) return;
+    var nom = document.getElementById("nombre");
+    var em = document.getElementById("email");
+    var tel = document.getElementById("telefono");
+    if (nom && !nom.value) {
+      if (s.guest) {
+        nom.placeholder = "Nombre y apellido para la orden";
+      } else {
+        nom.value = (s.nombre + " " + (s.apellido || "")).trim();
+      }
+    }
+    if (em && !em.value) {
+      if (s.guest) {
+        em.placeholder = "Correo para la confirmación";
+      } else {
+        em.value = s.email;
+      }
+    }
+    if (tel && !tel.value && s.telefono) tel.value = s.telefono;
+  }
+
+  prefillUser();
 
   function showStep(index) {
     current = Math.max(0, Math.min(index, panels.length - 1));
@@ -69,7 +139,7 @@
       if (i < current) d.classList.add("done");
       if (i === current) d.classList.add("active");
     });
-    if (current === 3) updatePrice();
+    if (current === 3) refreshPricingAndAvailability();
   }
 
   function validatePanel(index) {
@@ -112,23 +182,29 @@
     return ref;
   }
 
-  function buildReturnQuery() {
-    var fd = new FormData(form);
-    var params = new URLSearchParams();
-    fd.forEach(function (v, k) {
-      if (k !== "acepto" && v !== "" && v !== null) params.set(k, v);
-    });
-    return params.toString();
-  }
-
-  function goConfirmacion(mpState) {
+  function buildReturnQuery(mpState) {
     var fd = new FormData(form);
     var params = new URLSearchParams();
     fd.forEach(function (v, k) {
       if (k !== "acepto" && v !== "" && v !== null) params.set(k, v);
     });
     if (mpState) params.set("mp", mpState);
-    window.location.href = "confirmacion.html?" + params.toString();
+
+    var t = tipo && tipo.value;
+    if (t === "campo") t = "agro";
+    var dir = direccionInput && direccionInput.value;
+    var b = P.computeBreakdown(t, dir);
+    params.set("monto", String(b.total));
+    params.set("segmento", P.getSegment());
+    var sig = P.availabilitySignals(dir, t);
+    params.set("eta", String(sig.etaMin != null ? sig.etaMin : ""));
+    params.set("operadores", String(sig.pilots != null ? sig.pilots : ""));
+
+    return params.toString();
+  }
+
+  function goConfirmacion(mpState) {
+    window.location.href = "confirmacion.html?" + buildReturnQuery(mpState);
   }
 
   function showPayErr(msg) {
@@ -155,7 +231,8 @@
     assignRef();
     var t = tipo && tipo.value;
     if (t === "campo") t = "agro";
-    var amount = preciosARS[t] || 120000;
+    var dir = direccionInput && direccionInput.value;
+    var amount = P.computeBreakdown(t, dir).total;
     var ref = refField && refField.value;
     var title = "Dronealo · pedido " + ref;
 

@@ -15,11 +15,12 @@
   </head>
   <body>
     <script src="js/auth-demo.js"></script>
+    <script src="js/pricing-demo.js"></script>
     <script src="js/auth-gate.js"></script>
     <div class="app-shell">
     <div class="app-root">
       <header class="app-top app-top--ledger">
-        <a href="elegir-categoria.html" class="back" aria-label="Cambiar categoría">←</a>
+        <a href="servicios.html" class="back" aria-label="Cambiar categoría">←</a>
         <h1>Nuevo pedido</h1>
         <span class="app-top__spacer" aria-hidden="true"></span>
       </header>
@@ -54,6 +55,8 @@
               required
               autocomplete="street-address"
             />
+
+            <div class="availability-strip" id="availabilityBox" hidden></div>
 
             <div class="form-actions">
               <button type="button" class="btn btn-primary btn-block btn-next">Continuar</button>
@@ -107,10 +110,11 @@
             </p>
 
             <div class="price-box">
-              <div class="label">Total estimado</div>
+              <div class="label">Total estimado (IVA incluido donde corresponda · demo)</div>
               <div class="amount" id="precioDisplay">$120.000</div>
+              <div id="priceBreakdown" class="price-breakdown" aria-live="polite"></div>
               <div class="detail">
-                Incluye desplazamiento en zona estándar, sesión de vuelo y entrega digital en alta definición. Si el lugar requiere permisos adicionales, te avisamos antes de cobrar. El operador asignado figura como <strong>verificado ANAC</strong> con <strong>seguro activo</strong> cuando corresponde.
+                El total combina <strong>tarifa base por tipo de servicio</strong>, un <strong>suplemento simulado por zona</strong> según la dirección, y el <strong>perfil particular o empresa</strong> elegido en el inicio. Incluye sesión de vuelo de referencia y entrega digital. El operador asignado figura como <strong>verificado ANAC</strong> con <strong>seguro activo</strong> cuando corresponde.
               </div>
             </div>
 
@@ -140,10 +144,30 @@
     </div>
 
       <nav class="tab-bar" aria-label="Principal">
-        <a href="index.html"><span class="ti">⌂</span>Inicio</a>
-        <a href="servicios.html"><span class="ti">☰</span>Servicios</a>
-        <a href="pedidos.html"><span class="ti">◫</span>Pedidos</a>
-        <a href="perfil.html"><span class="ti">○</span>Perfil</a>
+        <a href="index.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+          >Inicio</a
+        >
+        <a href="servicios.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+          >Servicios</a
+        >
+        <a href="pedidos.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+          >Pedidos</a
+        >
+        <a href="perfil.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+          >Perfil</a
+        >
       </nav>
     </div>
 
