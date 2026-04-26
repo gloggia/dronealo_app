@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#004AAD" />
+    <title>Mapa de pilotos — Dronealo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <style>
+      .mapa-wrap {
+        padding: 18px 16px 26px;
+      }
+
+      .mapa-header h2 {
+        margin: 0;
+        font-size: 1.3rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .mapa-header p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .mapa-count {
+        margin-top: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(13, 159, 76, 0.25);
+        background: rgba(13, 159, 76, 0.1);
+        color: #0d7a3a;
+        font-size: 0.78rem;
+        font-weight: 800;
+        padding: 6px 10px;
+      }
+
+      .mapa-filters {
+        margin-top: 14px;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .mapa-filter-btn {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        font-family: inherit;
+      }
+
+      .mapa-filter-btn.active {
+        border-color: rgba(255, 112, 18, 0.4);
+        background: var(--brand-orange-soft);
+        color: var(--brand-orange-dark);
+      }
+
+      .arg-map {
+        position: relative;
+        margin-top: 14px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        height: 540px;
+      }
+
+      #realMap {
+        width: 100%;
+        height: 100%;
+      }
+
+      .leaflet-control-attribution {
+        font-size: 0.62rem;
+      }
+
+      .leaflet-container {
+        font-family: var(--font);
+        background: #e2ebf9;
+      }
+
+      .pilot-map-pin {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 0.67rem;
+        font-weight: 800;
+        box-shadow: 0 3px 10px rgba(20, 33, 50, 0.22);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #fff;
+        position: relative;
+      }
+
+      .pilot-map-pin::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -5px;
+        width: 7px;
+        height: 7px;
+        transform: translateX(-50%) rotate(45deg);
+        background: inherit;
+      }
+
+      .pilot-map-pin--busy {
+        background: #94a3b8;
+        opacity: 0.5;
+      }
+
+      .pilot-map-pin--active {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 3px 12px rgba(20, 33, 50, 0.3);
+      }
+
+      .sheet-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.42);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 60;
+      }
+
+      .sheet-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .pilot-sheet {
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        width: min(430px, 100vw);
+        transform: translate(-50%, 100%);
+        background: var(--surface);
+        border-radius: 18px 18px 0 0;
+        box-shadow: 0 -12px 30px rgba(20, 33, 50, 0.18);
+        transition: transform 0.25s ease;
+        z-index: 65;
+        padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+      }
+
+      .pilot-sheet.open {
+        transform: translate(-50%, 0);
+      }
+
+      .pilot-sheet__handle {
+        width: 46px;
+        height: 5px;
+        border-radius: 999px;
+        background: #c7d2e3;
+        margin: 0 auto 10px;
+      }
+
+      .pilot-sheet__title {
+        margin: 0;
+        font-size: 1.08rem;
+        font-weight: 800;
+      }
+
+      .pilot-sheet__meta {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .pilot-sheet__stats {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .pilot-sheet__stats div {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface-elevated);
+        padding: 8px 6px;
+        text-align: center;
+      }
+
+      .pilot-sheet__stats strong {
+        display: block;
+        color: var(--brand-blue-dark);
+        font-size: 1rem;
+      }
+
+      .pilot-sheet__stats span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.71rem;
+      }
+
+      .pilot-sheet__chips {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .pilot-sheet__chip {
+        font-size: 0.7rem;
+        font-weight: 700;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface-elevated);
+        color: var(--muted);
+        padding: 5px 9px;
+      }
+
+      .pilot-sheet__drone,
+      .pilot-sheet__special {
+        margin: 10px 0 0;
+        font-size: 0.82rem;
+        color: var(--text);
+      }
+
+      .pilot-sheet__status {
+        margin: 10px 0 0;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .pilot-sheet__status--ok {
+        color: #0d7a3a;
+      }
+
+      .pilot-sheet__status--busy {
+        color: #64748b;
+      }
+
+      .pilot-sheet .btn {
+        margin-top: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/auth-demo.js"></script>
+    <script src="js/auth-gate.js"></script>
+    <div class="app-shell">
+      <div class="app-root">
+        <header class="app-top app-top--ledger">
+          <a href="servicios.html" class="back" aria-label="Volver a servicios">←</a>
+          <h1>Disponibilidad de pilotos</h1>
+          <span class="app-top__spacer" aria-hidden="true"></span>
+        </header>
+
+        <main class="mapa-wrap">
+          <section class="mapa-header">
+            <h2>Mapa nacional de operadores</h2>
+            <p>18 pilotos mockeados con datos de experiencia, flota y especialidad por servicio.</p>
+            <div class="mapa-count">
+              <span id="availableCount">0</span>
+              <span>pilotos disponibles ahora</span>
+            </div>
+          </section>
+
+          <div class="mapa-filters" id="mapaFilters">
+            <button class="mapa-filter-btn active" data-filter="audiovisual">Audiovisual</button>
+            <button class="mapa-filter-btn" data-filter="inspeccion">Inspección</button>
+            <button class="mapa-filter-btn" data-filter="agro">Agro</button>
+            <button class="mapa-filter-btn" data-filter="construccion">Construcción</button>
+          </div>
+
+          <section class="arg-map" id="argMap" aria-label="Mapa de disponibilidad de pilotos en Argentina">
+            <div id="realMap"></div>
+          </section>
+        </main>
+      </div>
+
+      <nav class="tab-bar" aria-label="Principal">
+        <a href="index.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z" /><path d="M9 21V12h6v9" /></svg></span
+          >Inicio</a
+        >
+        <a class="active" href="servicios.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg></span
+          >Servicios</a
+        >
+        <a href="pedidos.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" /><rect x="9" y="3" width="6" height="4" rx="1" /><path d="M9 12h6M9 16h4" /></svg></span
+          >Pedidos</a
+        >
+        <a href="perfil.html"
+          ><span class="tab-ico" aria-hidden="true"
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /></svg></span
+          >Perfil</a
+        >
+      </nav>
+    </div>
+
+    <div class="sheet-backdrop" id="sheetBackdrop"></div>
+    <aside class="pilot-sheet" id="pilotSheet" aria-label="Detalle del piloto">
+      <div class="pilot-sheet__handle" aria-hidden="true"></div>
+      <h3 class="pilot-sheet__title" id="sheetName">—</h3>
+      <p class="pilot-sheet__meta" id="sheetLocation">—</p>
+      <div class="pilot-sheet__stats">
+        <div><strong id="sheetRating">—</strong><span>Rating</span></div>
+        <div><strong id="sheetReviews">—</strong><span>Reseñas</span></div>
+        <div><strong id="sheetFlights">—</strong><span>Vuelos</span></div>
+      </div>
+      <div class="pilot-sheet__chips">
+        <span class="pilot-sheet__chip" id="sheetExperience">—</span>
+        <span class="pilot-sheet__chip" id="sheetService">—</span>
+      </div>
+      <p class="pilot-sheet__drone" id="sheetDrone">—</p>
+      <p class="pilot-sheet__special" id="sheetSpecial">—</p>
+      <p class="pilot-sheet__status" id="sheetStatus">—</p>
+      <a class="btn btn-primary btn-block" id="sheetRequestBtn" href="elegir-categoria.html">Solicitar este piloto</a>
+    </aside>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      (function () {
+        var pilots = [
+          { id: "p1", nombre: "Carlos Rodríguez", zona: "Palermo, AMBA", lat: -34.58, lng: -58.42, rating: 4.9, resenas: 127, vuelos: 312, experiencia: "3 años", dron: "DJI Mavic 3 Pro", especialidad: "Inmobiliaria premium", servicios: { audiovisual: true, inspeccion: true, agro: false, construccion: true } },
+          { id: "p2", nombre: "Sofía Benítez", zona: "Morón, AMBA", lat: -34.65, lng: -58.62, rating: 4.8, resenas: 98, vuelos: 244, experiencia: "4 años", dron: "Autel EVO II Pro", especialidad: "Eventos y bodas", servicios: { audiovisual: true, inspeccion: false, agro: false, construccion: true } },
+          { id: "p3", nombre: "Matías Pereyra", zona: "San Isidro, AMBA", lat: -34.47, lng: -58.51, rating: 4.7, resenas: 83, vuelos: 201, experiencia: "2 años", dron: "DJI Air 3", especialidad: "Cobertura corporativa", servicios: { audiovisual: true, inspeccion: false, agro: false, construccion: false } },
+          { id: "p4", nombre: "Lucía Herrera", zona: "Lanús, AMBA", lat: -34.70, lng: -58.39, rating: 4.8, resenas: 105, vuelos: 267, experiencia: "5 años", dron: "DJI Mavic 3 Classic", especialidad: "Inspección urbana", servicios: { audiovisual: false, inspeccion: true, agro: false, construccion: true } },
+          { id: "p5", nombre: "Diego Ávila", zona: "Pilar, AMBA", lat: -34.46, lng: -58.91, rating: 4.6, resenas: 76, vuelos: 188, experiencia: "3 años", dron: "DJI Matrice 30T", especialidad: "Termografía técnica", servicios: { audiovisual: false, inspeccion: true, agro: false, construccion: true } },
+          { id: "p6", nombre: "Marina Quiroga", zona: "La Matanza, AMBA", lat: -34.74, lng: -58.65, rating: 4.7, resenas: 91, vuelos: 219, experiencia: "4 años", dron: "DJI Mavic 2 Enterprise", especialidad: "Seguridad en obra", servicios: { audiovisual: true, inspeccion: true, agro: false, construccion: true } },
+          { id: "p7", nombre: "Federico Bianchi", zona: "Córdoba Capital", lat: -31.42, lng: -64.18, rating: 4.9, resenas: 142, vuelos: 355, experiencia: "6 años", dron: "DJI Inspire 2", especialidad: "Producción audiovisual", servicios: { audiovisual: true, inspeccion: true, agro: true, construccion: true } },
+          { id: "p8", nombre: "Romina Gallo", zona: "Rosario, Santa Fe", lat: -32.95, lng: -60.66, rating: 4.8, resenas: 116, vuelos: 286, experiencia: "5 años", dron: "DJI Mavic 3 Pro", especialidad: "Inspección portuaria", servicios: { audiovisual: true, inspeccion: true, agro: true, construccion: false } },
+          { id: "p9", nombre: "Nicolás Ríos", zona: "Mendoza", lat: -32.89, lng: -68.84, rating: 4.7, resenas: 89, vuelos: 231, experiencia: "4 años", dron: "Parrot Anafi USA", especialidad: "Viñedos y turismo", servicios: { audiovisual: true, inspeccion: true, agro: true, construccion: false } },
+          { id: "p10", nombre: "Carla Medina", zona: "San Miguel de Tucumán", lat: -26.83, lng: -65.22, rating: 4.6, resenas: 73, vuelos: 180, experiencia: "3 años", dron: "DJI Air 2S", especialidad: "Cobertura comercial", servicios: { audiovisual: true, inspeccion: false, agro: true, construccion: true } },
+          { id: "p11", nombre: "Pablo Ibarra", zona: "Salta Capital", lat: -24.79, lng: -65.41, rating: 4.8, resenas: 92, vuelos: 238, experiencia: "5 años", dron: "DJI Mavic 3 Thermal", especialidad: "Inspección minera", servicios: { audiovisual: false, inspeccion: true, agro: true, construccion: true } },
+          { id: "p12", nombre: "Valentina Lagos", zona: "Mar del Plata", lat: -38.00, lng: -57.55, rating: 4.7, resenas: 80, vuelos: 194, experiencia: "3 años", dron: "DJI Mini 4 Pro", especialidad: "Hotelería y turismo", servicios: { audiovisual: true, inspeccion: false, agro: false, construccion: false } },
+          { id: "p13", nombre: "Gonzalo Funes", zona: "Neuquén", lat: -38.95, lng: -68.06, rating: 4.9, resenas: 134, vuelos: 302, experiencia: "6 años", dron: "DJI Matrice 350 RTK", especialidad: "Oil & gas", servicios: { audiovisual: false, inspeccion: true, agro: false, construccion: true } },
+          { id: "p14", nombre: "Agustina Varela", zona: "Bariloche", lat: -41.13, lng: -71.31, rating: 4.8, resenas: 109, vuelos: 252, experiencia: "4 años", dron: "Autel EVO Max 4T", especialidad: "Montaña y rescate", servicios: { audiovisual: true, inspeccion: true, agro: false, construccion: false } },
+          { id: "p15", nombre: "Joaquín Sosa", zona: "Santa Fe Capital", lat: -31.63, lng: -60.70, rating: 4.6, resenas: 70, vuelos: 175, experiencia: "2 años", dron: "DJI Air 3", especialidad: "Seguimiento de obra", servicios: { audiovisual: true, inspeccion: true, agro: true, construccion: true } },
+          { id: "p16", nombre: "Melina Duarte", zona: "Resistencia, Chaco", lat: -27.45, lng: -58.99, rating: 4.7, resenas: 78, vuelos: 192, experiencia: "3 años", dron: "DJI Mavic 3E", especialidad: "Agricultura de precisión", servicios: { audiovisual: false, inspeccion: true, agro: true, construccion: false } },
+          { id: "p17", nombre: "Bruno Escobar", zona: "Posadas, Misiones", lat: -27.37, lng: -55.90, rating: 4.8, resenas: 96, vuelos: 226, experiencia: "4 años", dron: "DJI Phantom 4 RTK", especialidad: "Topografía y mapeo", servicios: { audiovisual: false, inspeccion: true, agro: true, construccion: true } },
+          { id: "p18", nombre: "Florencia Núñez", zona: "La Plata", lat: -34.92, lng: -57.95, rating: 4.7, resenas: 88, vuelos: 207, experiencia: "4 años", dron: "DJI Mavic 3 Pro", especialidad: "Inspección edilicia", servicios: { audiovisual: true, inspeccion: true, agro: false, construccion: true } },
+        ];
+
+        var colors = [
+          "#0057B8", "#7C3AED", "#0EA5E9", "#E11D48", "#F97316", "#0D9488",
+          "#2563EB", "#9333EA", "#D97706", "#0284C7", "#7C2D12", "#16A34A",
+          "#B91C1C", "#0F766E", "#1D4ED8", "#C2410C", "#4F46E5", "#0369A1",
+        ];
+
+        var filter = "audiovisual";
+        var selectedId = null;
+        var map = L.map("realMap", {
+          zoomControl: true,
+          minZoom: 4,
+          maxZoom: 12,
+        }).setView([-38.3, -63.6], 4.4);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: "&copy; OpenStreetMap",
+        }).addTo(map);
+        var markerLayer = L.layerGroup().addTo(map);
+        var filtersWrap = document.getElementById("mapaFilters");
+        var countEl = document.getElementById("availableCount");
+        var sheet = document.getElementById("pilotSheet");
+        var backdrop = document.getElementById("sheetBackdrop");
+        var sheetName = document.getElementById("sheetName");
+        var sheetLocation = document.getElementById("sheetLocation");
+        var sheetRating = document.getElementById("sheetRating");
+        var sheetReviews = document.getElementById("sheetReviews");
+        var sheetFlights = document.getElementById("sheetFlights");
+        var sheetExperience = document.getElementById("sheetExperience");
+        var sheetService = document.getElementById("sheetService");
+        var sheetDrone = document.getElementById("sheetDrone");
+        var sheetSpecial = document.getElementById("sheetSpecial");
+        var sheetStatus = document.getElementById("sheetStatus");
+        var sheetRequestBtn = document.getElementById("sheetRequestBtn");
+
+        function initials(name) {
+          return name.split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w.charAt(0); }).join("").toUpperCase();
+        }
+
+        function serviceLabel(key) {
+          if (key === "audiovisual") return "Audiovisual";
+          if (key === "inspeccion") return "Inspección";
+          if (key === "agro") return "Agro";
+          return "Construcción";
+        }
+
+        function isAvailable(pilot) {
+          return !!pilot.servicios[filter];
+        }
+
+        function renderPins() {
+          markerLayer.clearLayers();
+          var available = 0;
+          pilots.forEach(function (pilot, idx) {
+            var availableForFilter = isAvailable(pilot);
+            if (availableForFilter) available += 1;
+            var classes = "pilot-map-pin";
+            if (!availableForFilter) classes += " pilot-map-pin--busy";
+            if (selectedId === pilot.id) classes += " pilot-map-pin--active";
+            var bg = availableForFilter ? colors[idx % colors.length] : "#94a3b8";
+            var icon = L.divIcon({
+              className: "",
+              html: '<div class="' + classes + '" style="background:' + bg + '">' + initials(pilot.nombre) + "</div>",
+              iconSize: [28, 28],
+              iconAnchor: [14, 30],
+            });
+            var marker = L.marker([pilot.lat, pilot.lng], { icon: icon, keyboard: true });
+            marker.on("click", function () {
+              selectedId = pilot.id;
+              renderPins();
+              openSheet(pilot);
+            });
+            marker.addTo(markerLayer);
+          });
+          countEl.textContent = String(available);
+        }
+
+        function openSheet(pilot) {
+          var available = isAvailable(pilot);
+          sheetName.textContent = pilot.nombre;
+          sheetLocation.textContent = pilot.zona;
+          sheetRating.textContent = String(pilot.rating).replace(".", ",");
+          sheetReviews.textContent = String(pilot.resenas);
+          sheetFlights.textContent = String(pilot.vuelos);
+          sheetExperience.textContent = pilot.experiencia + " de experiencia";
+          sheetService.textContent = serviceLabel(filter);
+          sheetDrone.textContent = "Dron: " + pilot.dron;
+          sheetSpecial.textContent = "Especialidad: " + pilot.especialidad;
+          sheetStatus.textContent = available ? "Disponible para " + serviceLabel(filter) : "Ocupado para " + serviceLabel(filter);
+          sheetStatus.className = "pilot-sheet__status " + (available ? "pilot-sheet__status--ok" : "pilot-sheet__status--busy");
+          sheetRequestBtn.href = "elegir-categoria.html?pilot=" + encodeURIComponent(pilot.id) + "&tipo=" + encodeURIComponent(filter);
+          backdrop.classList.add("open");
+          sheet.classList.add("open");
+        }
+
+        function closeSheet() {
+          backdrop.classList.remove("open");
+          sheet.classList.remove("open");
+        }
+
+        filtersWrap.addEventListener("click", function (e) {
+          var btn = e.target.closest("[data-filter]");
+          if (!btn) return;
+          filter = btn.getAttribute("data-filter");
+          filtersWrap.querySelectorAll(".mapa-filter-btn").forEach(function (b) {
+            b.classList.toggle("active", b === btn);
+          });
+          renderPins();
+          if (selectedId) {
+            var selectedPilot = pilots.find(function (p) { return p.id === selectedId; });
+            if (selectedPilot && sheet.classList.contains("open")) openSheet(selectedPilot);
+          }
+        });
+
+        backdrop.addEventListener("click", closeSheet);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeSheet();
+        });
+
+        renderPins();
+      })();
+    </script>
+  </body>
+</html>

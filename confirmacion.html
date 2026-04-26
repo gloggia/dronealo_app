@@ -31,6 +31,44 @@
           Te enviamos un correo con el resumen y el enlace de pago. Cuando se acredite, asignamos la visita y te avisamos la franja horaria.
         </p>
 
+        <section class="pilot-profile pilot-profile--in-flow confirm-pilot-profile" id="pilotContactCard" hidden aria-labelledby="pilotContactTitle">
+          <h3 id="pilotContactTitle" class="pilot-profile__title">Tu piloto asignado</h3>
+          <div class="pilot-profile__card">
+            <img
+              id="pilotContactPhoto"
+              class="pilot-profile__photo"
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&amp;h=160&amp;fit=crop&amp;crop=faces"
+              alt="Retrato del piloto asignado"
+              width="72"
+              height="72"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+            />
+            <div class="pilot-profile__body">
+              <p id="pilotContactName" class="pilot-profile__name">Carlos Rodriguez</p>
+              <p id="pilotContactMeta" class="pilot-profile__meta">Piloto certificado · Buenos Aires</p>
+              <p id="pilotContactRating" class="pilot-profile__rating">
+                <span class="star" aria-hidden="true">★</span>
+                4,9 · 127 vuelos
+              </p>
+              <div class="pilot-profile__anac">
+                <span class="badge-compliance badge-compliance--anac">ANAC verificado</span>
+                <span class="badge-compliance badge-compliance--seguro">Seguro activo</span>
+                <span class="badge-compliance badge-compliance--vlos">Respuesta rápida</span>
+              </div>
+              <p id="pilotContactDrone" class="pilot-profile__drone">
+                Tipo de dron que opera: <strong>DJI Mavic 3 Pro</strong> (multiespectral / inspección)
+              </p>
+            </div>
+          </div>
+          <p class="confirm-pilot-profile__hint">Te va a contactar antes del vuelo para coordinar detalles.</p>
+          <div class="confirm-pilot-profile__actions">
+            <a id="pilotWhatsappBtn" class="btn confirm-pilot-profile__btn--wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            <a id="pilotCallBtn" class="btn confirm-pilot-profile__btn--call" href="#">Llamar</a>
+          </div>
+        </section>
+
         <ul class="confirm-next-steps" id="confSteps">
           <li id="confStep1">Guardá tu número de pedido para cualquier consulta.</li>
           <li id="confStep2">Te avisamos por el canal de contacto que indicaste cuando asignemos operador.</li>
@@ -90,26 +128,26 @@
       <nav class="tab-bar" aria-label="Principal">
         <a href="index.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z" /><path d="M9 21V12h6v9" /></svg></span
           >Inicio</a
         >
         <a href="servicios.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg></span
           >Servicios</a
         >
         <a class="active" href="pedidos.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" /><rect x="9" y="3" width="6" height="4" rx="1" /><path d="M9 12h6M9 16h4" /></svg></span
           >Pedidos</a
         >
         <a href="perfil.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /></svg></span
           >Perfil</a
         >
       </nav>
@@ -137,12 +175,40 @@
         var ops = p.get("operadores");
         var email = p.get("email");
         var tel = p.get("telefono");
+        var pilotName = decodeURIComponent((p.get("pilot") || "Carlos Rodriguez").replace(/\+/g, " "));
+        var pilotCity = decodeURIComponent((p.get("pilotCity") || "Buenos Aires").replace(/\+/g, " "));
+        var pilotRating = decodeURIComponent((p.get("pilotRating") || "4,9").replace(/\+/g, " "));
+        var pilotFlights = decodeURIComponent((p.get("pilotFlights") || "127").replace(/\+/g, " "));
+        var pilotDrone = decodeURIComponent((p.get("pilotDrone") || "DJI Mavic 3 Pro · Camara Hasselblad · 43 min autonomia").replace(/\+/g, " "));
+        var pilotPhoto = decodeURIComponent((p.get("pilotPhoto") || "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&h=160&fit=crop&crop=faces").replace(/\+/g, " "));
+        var pilotPhoneRaw = decodeURIComponent((p.get("pilotPhone") || "+54 9 11 5555-0101").replace(/\+/g, " "));
+        var pilotPhoneDigits = pilotPhoneRaw.replace(/[^\d]/g, "");
 
         function fmtMoney(n) {
           if (!n) return "—";
           var x = parseInt(n, 10);
           if (isNaN(x)) return "—";
           return "$" + x.toLocaleString("es-AR");
+        }
+
+        function showPilotContactCard() {
+          var card = document.getElementById("pilotContactCard");
+          if (!card) return;
+          var nameEl = document.getElementById("pilotContactName");
+          var photoEl = document.getElementById("pilotContactPhoto");
+          var metaEl = document.getElementById("pilotContactMeta");
+          var ratingEl = document.getElementById("pilotContactRating");
+          var droneEl = document.getElementById("pilotContactDrone");
+          var waEl = document.getElementById("pilotWhatsappBtn");
+          var callEl = document.getElementById("pilotCallBtn");
+          card.hidden = false;
+          if (nameEl) nameEl.textContent = pilotName;
+          if (photoEl) photoEl.src = pilotPhoto;
+          if (metaEl) metaEl.textContent = "Piloto certificado · " + pilotCity;
+          if (ratingEl) ratingEl.innerHTML = '<span class="star" aria-hidden="true">★</span> ' + pilotRating + " · " + pilotFlights + " vuelos";
+          if (droneEl) droneEl.innerHTML = "Tipo de dron que opera: <strong>" + pilotDrone + "</strong>";
+          if (waEl) waEl.href = "https://wa.me/" + pilotPhoneDigits + "?text=" + encodeURIComponent("Hola " + pilotName + ", te escribo por el pedido " + ref + " en Dronealo.");
+          if (callEl) callEl.href = "tel:+" + pilotPhoneDigits;
         }
 
         document.getElementById("refLine").textContent = ref;
@@ -196,6 +262,7 @@
             "Pedido " +
             ref +
             " registrado. Te avisamos por tu contacto cuando asignemos operador. Seguimiento en Pedidos.";
+          showPilotContactCard();
           if (banner) {
             banner.innerHTML =
               "<strong>Próximo paso</strong> Asignación de operador verificado ANAC y coordinación de la visita.";
@@ -233,6 +300,7 @@
             "Pedido " +
             ref +
             " listo. Sin cobro real en esta demo. En Vercel con token de prueba podés usar «Pagar con Mercado Pago» (Checkout Pro sandbox).";
+          showPilotContactCard();
           if (t1) t1.textContent = "Pago simulado · sin cargo real";
           if (t2)
             t2.textContent =

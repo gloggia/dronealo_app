@@ -53,11 +53,51 @@
         </header>
 
         <main class="app-main">
-          <p class="home-hello">Hola</p>
-          <h2 class="home-title">Quiero dronear</h2>
+          <p class="home-hello" id="homeGreeting">Buenos días.</p>
+          <h2 class="home-title">¿Estás listo para dronear?</h2>
+          <p class="home-hero-lead">
+            Ingresa tu proyecto y te conectamos con pilotos de drones certificados ANAC y con seguro activo. Desde fotos y video aéreo hasta inspecciones industriales y obra.
+          </p>
 
-          <p class="form-lead" style="margin-top: -8px; margin-bottom: 14px">
-            Publicá tu pedido en minutos y coordiná el vuelo con operadores verificados.
+          <div class="hero-badges" role="list">
+            <span class="hero-badge" role="listitem">
+              <span class="hero-badge__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </span>
+              Verificados ANAC
+            </span>
+            <span class="hero-badge" role="listitem">
+              <span class="hero-badge__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              </span>
+              Seguro activo
+            </span>
+            <span class="hero-badge" role="listitem">
+              <span class="hero-badge__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" />
+                </svg>
+              </span>
+              Respuesta en 2 hs.
+            </span>
+          </div>
+
+          <a class="btn btn-primary btn-block home-hero-cta" href="servicios.html">
+            <span class="home-hero-cta__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="2.5" />
+                <path d="M12 6V4M12 20v-2M6 12H4M20 12h-2M7 7l-1.5-1.5M17.5 17.5L16 16M7 17l-1.5 1.5M17.5 6.5L16 8" />
+              </svg>
+            </span>
+            Dronea ahora
+          </a>
+          <p class="home-hero-footnote">
+            ¿Primera vez? <a href="login.html">Ingresá</a> o <a href="login.html">continuar como invitado</a>.
           </p>
 
           <div class="value-grid">
@@ -98,20 +138,6 @@
             </div>
           </div>
 
-          <div class="home-meta-row">
-            <span class="home-chip">Zona activa: AMBA · simulación</span>
-            <span class="home-chip">Clima vuelo: favorable · demo</span>
-          </div>
-
-          <div class="hero-card">
-            <p>Contanos qué necesitás y te ayudamos a elegir el mejor servicio para tu vuelo.</p>
-            <a class="btn btn-primary btn-block" href="servicios.html">Quiero dronear</a>
-            <p style="margin: 14px 0 0; font-size: var(--text-caption); color: var(--muted); text-align: center">
-              ¿Primera vez? <a href="login.html" style="color: var(--brand-blue); font-weight: 700">Ingresá</a> o
-              <a href="login.html" style="color: var(--brand-blue); font-weight: 700">continuar como invitado</a> desde el login.
-            </p>
-          </div>
-
           <p class="section-label">Actividad reciente</p>
           <div class="order-preview">
             <div class="row">
@@ -127,40 +153,46 @@
       <nav class="tab-bar" aria-label="Principal">
         <a class="active" href="index.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z" /><path d="M9 21V12h6v9" /></svg></span
           >Inicio</a
         >
         <a href="servicios.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg></span
           >Servicios</a
         >
         <a href="pedidos.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" /><rect x="9" y="3" width="6" height="4" rx="1" /><path d="M9 12h6M9 16h4" /></svg></span
           >Pedidos</a
         >
         <a href="perfil.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /></svg></span
           >Perfil</a
         >
       </nav>
     </div>
     <script>
       (function () {
+        function homeGreetingText(firstName) {
+          var h = new Date().getHours();
+          var base = "Buenos días";
+          if (h >= 12 && h < 20) base = "Buenas tardes";
+          if (h >= 20 || h < 5) base = "Buenas noches";
+          if (firstName) return base + ", " + firstName + ".";
+          return base + ".";
+        }
         var A = window.DronealoAuthDemo;
-        if (A) {
+        var greetEl = document.getElementById("homeGreeting");
+        if (greetEl && A) {
           var s = A.getSession();
-          var el = document.querySelector(".home-hello");
-          if (el && s && s.nombre) {
-            var first = (s.nombre || "").split(/\s+/)[0];
-            el.textContent = first ? "Hola, " + first : "Hola";
-          }
+          var first = s && s.nombre ? (s.nombre || "").split(/\s+/)[0] : "";
+          greetEl.textContent = homeGreetingText(first || "");
         }
         var ONB = "dronealo_onboarding_v1";
         var root = document.getElementById("onboardingRoot");

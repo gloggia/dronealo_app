@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -193,20 +193,41 @@
                 <span class="ref">DA-48K3L</span>
                 <span class="pill progress">En curso</span>
               </div>
-              <p>Inspección de obra · Piloto: Carlos R. · Iniciado 14:32 hs</p>
-              <div class="compliance-badges" aria-label="Estado normativo del operador">
-                <span class="badge-compliance badge-compliance--anac">Proveedor verificado ANAC</span>
+              <p>Inspección de obra · Iniciado 14:32 hs</p>
+              <div class="compliance-badges" aria-label="Estado normativo del pedido">
                 <span class="badge-compliance badge-compliance--seguro">Seguro activo</span>
-                <span class="badge-compliance badge-compliance--vlos">VLOS</span>
+                <span class="badge-compliance badge-compliance--vlos">Operación VLOS</span>
               </div>
 
-              <div class="pilot-card" aria-label="Operador asignado (simulación)">
-                <div class="pilot-card__avatar" aria-hidden="true">CR</div>
-                <div>
-                  <strong style="font-size: var(--text-small)">Carlos R.</strong>
-                  <p class="pilot-card__meta">4,9 ★ · 128 vuelos · Certificación RPAS · simulación</p>
+              <section class="pilot-profile pilot-profile--in-flow" aria-labelledby="pilotProfileHeading">
+                <h3 id="pilotProfileHeading" class="pilot-profile__title">Piloto asignado</h3>
+                <div class="pilot-profile__card">
+                  <img
+                    class="pilot-profile__photo"
+                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&amp;h=160&amp;fit=crop&amp;crop=faces"
+                    alt="Retrato del piloto Carlos Rodríguez"
+                    width="72"
+                    height="72"
+                    loading="lazy"
+                    decoding="async"
+                    referrerpolicy="no-referrer"
+                  />
+                  <div class="pilot-profile__body">
+                    <p class="pilot-profile__name">Carlos Rodríguez</p>
+                    <p class="pilot-profile__rating">
+                      <span class="star" aria-hidden="true">★</span>
+                      4,8 · 127 vuelos
+                    </p>
+                    <div class="pilot-profile__anac">
+                      <span class="badge-compliance badge-compliance--anac">Certificación ANAC visible</span>
+                      <span class="badge-compliance badge-compliance--anac" title="Demo">Registro RPAS vigente</span>
+                    </div>
+                    <p class="pilot-profile__drone">
+                      Tipo de dron que opera: <strong>DJI Mavic 3 Pro</strong> (multiespectral / inspección)
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </section>
 
               <button class="expand-live" id="btnLive" onclick="toggleLive()" aria-expanded="false">
                 <span>📡</span> Ver transmisión en vivo
@@ -347,7 +368,19 @@
               </div>
               <p>Foto aéreo · Martes 18 mar · Material en tu bandeja</p>
               <a href="#" class="deliverable-link" onclick="return false;">Descargar material (demo)</a>
-              <button type="button" class="rating-btn" disabled>Valorar servicio (pronto)</button>
+              <div class="rating-banner" data-pedido="DA-72M91" data-piloto="Carlos R.">
+                <p class="rating-banner__title">¿Cómo fue tu vuelo?</p>
+                <p class="rating-banner__hint">Marcá estrellas y seguí al formulario para completar o comentar.</p>
+                <div class="rating-banner__stars" role="group" aria-label="Calificación rápida">
+                  <button type="button" class="rating-banner__star" data-star="1" aria-label="1 estrella" aria-pressed="false">★</button>
+                  <button type="button" class="rating-banner__star" data-star="2" aria-label="2 estrellas" aria-pressed="false">★</button>
+                  <button type="button" class="rating-banner__star" data-star="3" aria-label="3 estrellas" aria-pressed="false">★</button>
+                  <button type="button" class="rating-banner__star" data-star="4" aria-label="4 estrellas" aria-pressed="false">★</button>
+                  <button type="button" class="rating-banner__star" data-star="5" aria-label="5 estrellas" aria-pressed="false">★</button>
+                </div>
+                <a class="rating-banner__cta" href="valoracion.html?pedido=DA-72M91&amp;piloto=Carlos+R.">Calificar ahora</a>
+                <a class="rating-banner__skip" href="pedidos.html">Omitir por ahora</a>
+              </div>
             </article>
 
             <article class="order-card">
@@ -356,6 +389,22 @@
                 <span class="pill done">Entregado</span>
               </div>
               <p>Obra · Entregado el 02 mar</p>
+              <div class="order-rating-summary">
+                <span class="order-rating-summary__title">Calificado</span>
+                <span class="sr-only">Calificación: 5 de 5 estrellas.</span>
+                <div class="star-row star-row--display" aria-hidden="true">
+                  <span class="star-row__star">★</span>
+                  <span class="star-row__star">★</span>
+                  <span class="star-row__star">★</span>
+                  <span class="star-row__star">★</span>
+                  <span class="star-row__star">★</span>
+                </div>
+                <a
+                  class="order-rating-summary__link"
+                  href="valoracion.html?pedido=DA-31PQR&amp;valorado=1&amp;piloto=Mar%C3%ADa+G."
+                  >Ver valoración completa (demo)</a
+                >
+              </div>
             </article>
           </div>
 
@@ -368,26 +417,26 @@
       <nav class="tab-bar" aria-label="Principal">
         <a href="index.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" stroke-linejoin="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z" /><path d="M9 21V12h6v9" /></svg></span
           >Inicio</a
         >
         <a href="servicios.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg></span
           >Servicios</a
         >
         <a class="active" href="pedidos.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" /><rect x="9" y="3" width="6" height="4" rx="1" /><path d="M9 12h6M9 16h4" /></svg></span
           >Pedidos</a
         >
         <a href="perfil.html"
           ><span class="tab-ico" aria-hidden="true"
-            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
-              ><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0112 0v1" stroke-linecap="round" /></svg></span
+            ><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              ><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /></svg></span
           >Perfil</a
         >
       </nav>
@@ -445,6 +494,45 @@
         batEl.style.color = bat < 25 ? '#ff4444' : '';
         document.getElementById('mAlt').textContent = 'Alt: '+a;
       }, 1800);
+
+      // Rating rápido en pedidos entregados (demo)
+      function initRatingBanners() {
+        const banners = document.querySelectorAll('.rating-banner');
+        banners.forEach((banner) => {
+          const stars = banner.querySelectorAll('.rating-banner__star');
+          const cta = banner.querySelector('.rating-banner__cta');
+          const pedido = banner.getAttribute('data-pedido') || '';
+          const piloto = banner.getAttribute('data-piloto') || '';
+          let selected = 0;
+
+          function paint(value) {
+            stars.forEach((btn) => {
+              const n = Number(btn.getAttribute('data-star') || '0');
+              const on = n <= value;
+              btn.classList.toggle('rating-banner__star--active', on);
+              btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+            const query =
+              'valoracion.html?pedido=' +
+              encodeURIComponent(pedido) +
+              '&piloto=' +
+              encodeURIComponent(piloto) +
+              (value > 0 ? '&stars=' + value : '');
+            if (cta) cta.setAttribute('href', query);
+          }
+
+          stars.forEach((btn) => {
+            btn.addEventListener('click', () => {
+              selected = Number(btn.getAttribute('data-star') || '0');
+              paint(selected);
+            });
+          });
+
+          paint(0);
+        });
+      }
+
+      initRatingBanners();
     </script>
   </body>
 </html>
